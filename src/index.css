@@ -1,0 +1,117 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+@theme {
+  --color-luxury-bg: #080808;
+  --color-luxury-bg-secondary: #111111;
+  --color-luxury-text: #F5F5F5;
+  --color-luxury-gold: #A61E2D;
+  --color-luxury-grey: #A0A0A0;
+  --color-luxury-red-hover: #C1273D;
+  --color-luxury-red-deep: #8A1522;
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  
+  --shadow-gold-glow: 0 0 20px rgba(166, 30, 45, 0.08);
+  --shadow-gold-glow-strong: 0 0 40px rgba(166, 30, 45, 0.15);
+  
+  --animate-pulse-slow: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-spin-slow: spin 60s linear infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #080808;
+  color: #F5F5F5;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #080808;
+  color: #F5F5F5;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+::-webkit-scrollbar-thumb {
+  background: #232121;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A61E2D;
+}
+
+/* Selection highlight */
+::selection {
+  background-color: rgba(166, 30, 45, 0.18);
+  color: #F5F5F5;
+}
+
+/* Luxury card outline (used very sparingly) */
+.luxury-card {
+  background: rgba(17, 17, 17, 0.4);
+  border: 1px solid rgba(166, 30, 45, 0.06);
+  border-radius: 0px;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card:hover {
+  border-color: rgba(166, 30, 45, 0.2);
+  box-shadow: 0 0 35px rgba(166, 30, 45, 0.03);
+}
+
+/* Premium technical grid backdrop */
+.tech-grid {
+  background-image: 
+    linear-gradient(to right, rgba(166, 30, 45, 0.012) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(166, 30, 45, 0.012) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center center;
+}
+
+/* Elegant solid titanium secondary text */
+.text-outline {
+  -webkit-text-stroke: 0 !important;
+  -webkit-text-fill-color: #8E949D !important;
+  color: #8E949D !important;
+  letter-spacing: 0.03em;
+}
+
+/* Premium subtle titanium effect for the hero name */
+.titanium-hero-text {
+  background: linear-gradient(135deg, #8E949D 0%, #858B94 50%, #7F858E 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Subtle gold accent text glow */
+.gold-glow-text {
+  text-shadow: 0 0 15px rgba(166, 30, 45, 0.25);
+}
+
+/* Premium Editorial Headings: H1 and H2 use Serif. Others use Inter. */
+h1, h2, .font-serif-luxury {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+h3, h4, h5, h6, nav, button, input, select, textarea {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Transitions for hover interactions */
+a, button, input, select, textarea {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
