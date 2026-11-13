@@ -13,8 +13,8 @@ export const Dashboard: React.FC = () => {
     {
       num: "01",
       label: "Execution Builds",
-      value: "05+",
-      desc: "Microcontroller telemetry rigs, gesture controls, and autonomous robotic models constructed."
+      value: "07+",
+      desc: "Microcontroller telemetry rigs, gesture controls, autonomous robotic models, computer vision platforms, and financial analytics systems constructed."
     },
     {
       num: "02",
@@ -25,7 +25,7 @@ export const Dashboard: React.FC = () => {
     {
       num: "03",
       label: "Academic Standing",
-      value: "8.5/10",
+      value: "8.42/10",
       desc: "Cumulative GPA maintained in Electronics & Communication at PDEU."
     }
   ];
@@ -40,7 +40,7 @@ export const Dashboard: React.FC = () => {
         {/* Title */}
         <div className="text-center mb-24">
           <span className="font-sans text-[10px] tracking-[0.35em] uppercase text-luxury-gold font-bold">
-            05 / Live Dashboard
+            06 / Live Dashboard
           </span>
           <h2 className="text-4xl md:text-5xl font-serif font-light uppercase tracking-widest text-luxury-text mt-3">
             Engineering <span className="font-light italic text-transparent text-outline">Telemetry</span>

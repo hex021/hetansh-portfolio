@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, ArrowUpRight } from 'lucide-react';
 import { OscilloscopeBackground } from './BackgroundSystem';
 
 export const Contact: React.FC = () => {
@@ -40,7 +40,7 @@ export const Contact: React.FC = () => {
           <div className="lg:col-span-5 space-y-10">
             <div className="space-y-4">
               <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
-                09 / Connection
+                11 / Connection
               </span>
               <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wider text-luxury-text leading-tight animate-fade-in">
                 Let's Build <br />
@@ -49,7 +49,7 @@ export const Contact: React.FC = () => {
             </div>
 
             <p className="font-sans text-xs md:text-sm text-luxury-grey font-light leading-relaxed max-w-sm tracking-wider">
-              I am open to discussions on robotics control design, microcontroller integrations, research proposals, or collaborative software-hardware builds. Reach out via email or connect on professional nodes.
+              I am open to discussions on robotics control design, microcontroller integrations, research proposals, or collaborative software-hardware builds. Reach out via email, phone, or connect on professional nodes.
             </p>
 
             {/* Social connection icons */}
@@ -96,6 +96,29 @@ export const Contact: React.FC = () => {
                 </div>
                 <div className="font-sans text-[9px] uppercase tracking-[0.15em] text-luxury-grey/75 font-light">
                   Primary contact channel. Response expected within 24 hours.
+                </div>
+              </a>
+
+              {/* Direct Voice / Phone Card */}
+              <a 
+                href="tel:+918758296710" 
+                className="luxury-card p-8 border border-luxury-gold/10 hover:border-luxury-gold/30 bg-[#111111]/10 hover:bg-luxury-gold/[0.02] transition-all duration-500 group flex flex-col justify-between space-y-8"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="space-y-1.5">
+                    <span className="font-sans text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-luxury-gold font-bold block">
+                      Direct Wire / Voice
+                    </span>
+                    <h3 className="font-sans text-lg md:text-2xl font-light tracking-wide text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
+                      +91 87582 96710
+                    </h3>
+                  </div>
+                  <div className="w-8 h-8 rounded-full border border-luxury-gold/10 flex items-center justify-center text-luxury-grey group-hover:text-luxury-gold group-hover:border-luxury-gold transition-all duration-500">
+                    <Phone size={15} />
+                  </div>
+                </div>
+                <div className="font-sans text-[9px] uppercase tracking-[0.15em] text-luxury-grey/75 font-light">
+                  Direct telephone &amp; WhatsApp communication line.
                 </div>
               </a>
 

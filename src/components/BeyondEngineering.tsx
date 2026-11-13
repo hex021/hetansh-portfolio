@@ -77,7 +77,7 @@ export const BeyondEngineering: React.FC = () => {
           {/* Left Column: Heading and intro (sticky) */}
           <div className="lg:col-span-4 lg:sticky lg:top-36 space-y-6">
             <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
-              08 / Perspective
+              10 / Perspective
             </span>
             <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wider text-luxury-text leading-tight">
               Beyond <br />

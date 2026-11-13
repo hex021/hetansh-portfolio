@@ -21,10 +21,11 @@ export const Navbar: React.FC = () => {
 
   const navItems = [
     { name: 'Vision', href: '#vision' },
-    { name: 'Philosophy', href: '#philosophy' },
     { name: 'Expertise', href: '#expertise' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Research', href: '#research' },
     { name: 'Timeline', href: '#timeline' },
+    { name: 'Milestones', href: '#achievements' },
     { name: 'Beyond', href: '#beyond' },
   ];
 

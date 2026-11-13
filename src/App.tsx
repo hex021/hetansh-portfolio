@@ -4,9 +4,11 @@ import { About } from './components/About';
 import { Philosophy } from './components/Philosophy';
 import { Expertise } from './components/Expertise';
 import { Projects } from './components/Projects';
+import { Research } from './components/Research';
 import { Dashboard } from './components/Dashboard';
 import { TechNetwork } from './components/TechNetwork';
 import { Timeline } from './components/Timeline';
+import { Achievements } from './components/Achievements';
 import { BeyondEngineering } from './components/BeyondEngineering';
 import { Contact } from './components/Contact';
 import { ECEGlobalBackground } from './components/BackgroundSystem';
@@ -37,19 +39,25 @@ function App() {
         {/* Section 5: Projects showcased as product launches */}
         <Projects />
 
-        {/* Section 6: Operations telemetry dashboard */}
+        {/* Section 6: Active Research & Sensor Instrumentation */}
+        <Research />
+
+        {/* Section 7: Operations telemetry dashboard */}
         <Dashboard />
 
-        {/* Section 7: Three.js interactive network representation */}
+        {/* Section 8: Three.js interactive network representation */}
         <TechNetwork />
 
-        {/* Section 8: Vertical trajectory timeline */}
+        {/* Section 9: Vertical trajectory timeline */}
         <Timeline />
 
-        {/* Section 9: Beyond Engineering interests */}
+        {/* Section 10: Milestones & Key Achievements */}
+        <Achievements />
+
+        {/* Section 11: Beyond Engineering interests */}
         <BeyondEngineering />
 
-        {/* Section 10: Glassmorphism contact module */}
+        {/* Section 12: Glassmorphism contact module */}
         <Contact />
       </main>
     </div>

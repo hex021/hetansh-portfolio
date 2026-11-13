@@ -20,11 +20,20 @@ export const Timeline: React.FC = () => {
       ]
     },
     {
+      date: '05/2025 - 06/2025',
+      title: 'Civic & Social Service Internship',
+      institution: 'Sabar Seva Trust',
+      highlights: [
+        '80 hours of community field service and social outreach.',
+        'Contributed to field documentation, project reporting, and grassroots community engagement.'
+      ]
+    },
+    {
       date: 'Expected 06/2028',
       title: 'B.Tech: Electronics & Communication Engineering',
       institution: 'Pandit Deendayal Energy University (PDEU)',
       highlights: [
-        'Cumulative GPA: 8.5 / 10',
+        'Cumulative GPA: 8.42 / 10 (till 4th Semester)',
         'Core Focus: Embedded Systems, Signal Processing, Robotics Control, and Circuit Simulations.'
       ]
     },
@@ -58,10 +67,10 @@ export const Timeline: React.FC = () => {
         {/* Header */}
         <div className="space-y-4 mb-24 text-center lg:text-left">
           <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
-            06 / Journey
+            08 / Journey
           </span>
           <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wider text-luxury-text">
-            Experience &amp; <span className="font-light italic text-transparent text-outline">Achievements</span>
+            Experience &amp; <span className="font-light italic text-transparent text-outline">Trajectory</span>
           </h2>
         </div>
 

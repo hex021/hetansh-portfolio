@@ -9,14 +9,14 @@ interface NodeData {
 }
 
 const nodes: NodeData[] = [
-  { name: 'AI Integration', position: [1.3, 0.8, 0.5] },
-  { name: 'Robotics Control', position: [-1.3, 0.9, -0.5] },
+  { name: 'Computer Vision', position: [1.3, 0.8, 0.5] },
+  { name: 'ROS 2 Robotics', position: [-1.3, 0.9, -0.5] },
   { name: 'Embedded Systems', position: [0, -1.2, 0.6] },
-  { name: 'IoT Sensing', position: [0.8, -0.7, -1.1] },
-  { name: 'Python Core', position: [-0.9, -0.6, 1.0] },
+  { name: 'Sensor Telemetry', position: [0.8, -0.7, -1.1] },
+  { name: 'Python & ML', position: [-0.9, -0.6, 1.0] },
   { name: 'ESP32 Nodes', position: [1.6, -0.2, 0.8] },
-  { name: 'Arduino Platform', position: [-1.6, -0.2, -0.8] },
-  { name: 'Networking Buses', position: [0, 1.4, -0.3] }
+  { name: 'Signal Conditioning', position: [-1.6, -0.2, -0.8] },
+  { name: 'FastAPI Backend', position: [0, 1.4, -0.3] }
 ];
 
 const NetworkScene: React.FC = () => {

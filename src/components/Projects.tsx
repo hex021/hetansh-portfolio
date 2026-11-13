@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ExternalLink } from 'lucide-react';
 import { PCBTraceBackground } from './BackgroundSystem';
 
 interface CaseStudy {
@@ -18,6 +18,7 @@ interface CaseStudy {
     languages: string;
   };
   metrics: { label: string; value: string }[];
+  githubUrl?: string;
 }
 
 export const Projects: React.FC = () => {
@@ -99,6 +100,66 @@ export const Projects: React.FC = () => {
         { label: 'IR Array Polling Freq', value: '400 Hz' },
         { label: 'Track Tracking Duty', value: '99.1%' }
       ]
+    },
+    {
+      id: 'nagarnetra',
+      title: 'NagarNetra — Urban Intelligence Platform',
+      category: 'CASE STUDY // COMPUTER VISION AI',
+      tagline: 'AI-powered urban surveillance and analytics for Smart India Hackathon 2026.',
+      problem: 'Urban traffic management and law enforcement lack real-time, automated intelligence for vehicle identification, crowd density estimation, and incident detection across distributed CCTV networks.',
+      approach: 'Led the computer vision pipeline as Technology & CV Lead. Deployed YOLOv8 object detection, ByteTrack multi-object tracking, Lucas-Kanade optical flow for motion estimation, and EasyOCR-based Automatic Number Plate Recognition (ANPR). Built on PyTorch with OpenCV preprocessing.',
+      outcome: 'Delivered a unified real-time urban intelligence dashboard capable of simultaneous vehicle tracking, crowd analytics, and automated plate recognition across multiple camera feeds.',
+      techSpecs: {
+        mcu: 'GPU-Accelerated Server',
+        sensors: 'CCTV Camera Feeds',
+        protocol: 'REST API / WebSocket Streams',
+        languages: 'Python, PyTorch, OpenCV, YOLO'
+      },
+      metrics: [
+        { label: 'Detection Model', value: 'YOLOv8' },
+        { label: 'Tracking Pipeline', value: 'ByteTrack' }
+      ],
+      githubUrl: 'https://github.com/hex021'
+    },
+    {
+      id: 'monte-carlo',
+      title: 'Project Monte Carlo — Financial Risk Analytics',
+      category: 'CASE STUDY // QUANTITATIVE FINANCE',
+      tagline: 'Stochastic simulation engine for multi-asset portfolio risk assessment and optimization.',
+      problem: 'Traditional portfolio risk assessment relies on static historical analysis, failing to capture tail risks, correlated market shocks, and dynamic volatility regimes that drive real-world financial losses.',
+      approach: 'Built a full-stack analytics platform using Monte Carlo simulation with Cholesky-decomposed correlated asset paths. Integrated Ridge regression forecasting, NLP sentiment scoring from financial news, and Markowitz mean-variance optimization. Backend on FastAPI, frontend in React/TypeScript.',
+      outcome: 'Achieved 38ms latency for 5,000 simulation paths over 30 days and 412ms for 50,000 paths over 365 days, with real-time Value-at-Risk (VaR) and Conditional VaR calculations.',
+      techSpecs: {
+        mcu: 'FastAPI Backend Server',
+        sensors: 'Market Data Feeds / NLP Sources',
+        protocol: 'REST API / JSON',
+        languages: 'Python, NumPy, React, TypeScript'
+      },
+      metrics: [
+        { label: '5K Paths / 30 Days', value: '38ms' },
+        { label: '50K Paths / 365 Days', value: '412ms' }
+      ],
+      githubUrl: 'https://github.com/hex021'
+    },
+    {
+      id: 'wifi-car',
+      title: 'Wi-Fi Controlled Smart Car',
+      category: 'CASE STUDY // WIRELESS IoT',
+      tagline: 'Smartphone-operated robotic vehicle via real-time Wi-Fi command streaming.',
+      problem: 'Bluetooth-based remote control solutions suffer from limited range and pairing complexity, restricting operational flexibility for remotely operated ground vehicles.',
+      approach: 'Configured an ESP32 as a Wi-Fi access point hosting a lightweight HTTP command server. Developed a smartphone web interface for directional control, with real-time motor driver commands streamed over the local wireless network.',
+      outcome: 'Achieved responsive wireless control with seamless smartphone connectivity and no external infrastructure dependency.',
+      techSpecs: {
+        mcu: 'ESP32 (Wi-Fi AP Mode)',
+        sensors: 'Web-Based Touch Interface',
+        protocol: 'HTTP / Wi-Fi Direct',
+        languages: 'Embedded C++ / HTML/JS'
+      },
+      metrics: [
+        { label: 'Control Interface', value: 'Web UI' },
+        { label: 'Wireless Range', value: '30m+' }
+      ],
+      githubUrl: 'https://github.com/hex021'
     }
   ];
 
@@ -250,6 +311,18 @@ export const Projects: React.FC = () => {
                       </div>
                     ))}
                   </div>
+
+                  {/* GitHub Link */}
+                  {currentProject.githubUrl && (
+                    <a
+                      href={currentProject.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full flex items-center justify-center gap-3 py-4 border border-luxury-gold/20 bg-transparent text-luxury-text font-sans text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-luxury-gold hover:text-luxury-bg transition-all duration-500"
+                    >
+                      View on GitHub <ExternalLink size={12} />
+                    </a>
+                  )}
                 </div>
 
               </motion.div>

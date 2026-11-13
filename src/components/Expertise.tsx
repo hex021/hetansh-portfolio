@@ -23,9 +23,10 @@ export const Expertise: React.FC = () => {
       title: 'Hardware & Circuits',
       skills: [
         { name: 'Microcontrollers', detail: 'Advanced firmware design on ESP32 & Arduino platforms. Low-latency embedded programming and static memory allocation.' },
-        { name: 'Sensor Interfacing', detail: 'Interfaced optical NPK sensors, MPU6050 gyroscopic systems, and multiplexed IR arrays.' },
+        { name: 'Sensor Interfacing', detail: 'Interfaced optical NPK sensors, MPU6050 gyroscopic systems, strain gauges, ultrasonic transducers, and multiplexed IR arrays.' },
         { name: 'Communication Protocols', detail: 'Register-level bus configurations for I2C, SPI, UART, and proprietary ESP-NOW wireless links.' },
-        { name: 'Circuit Design & Sim', detail: 'Analog filter designs, LTSpice rail analysis, and single-layer PCB routing blueprints.' }
+        { name: 'PCB Design & Sim', detail: 'Analog filter designs, LTSpice rail analysis, KiCad schematic capture, and single-layer PCB routing blueprints.' },
+        { name: 'Signal Conditioning', detail: 'Calibration procedures, grounding/noise diagnosis, amplification circuits, and oscilloscope-based validation.' }
       ]
     },
     {
@@ -33,19 +34,20 @@ export const Expertise: React.FC = () => {
       title: 'Software & Logic',
       skills: [
         { name: 'Embedded C / C++', detail: 'Production-grade firmware, direct port registers manipulation, and hardware interrupts.' },
-        { name: 'Python Core', detail: 'Automated telemetry logs parsing, local scripting, and data pipelines.' },
-        { name: 'Predictive ML', detail: 'Training and deploying random forest algorithms for agricultural soil classification.' },
-        { name: 'AI Integrations', detail: 'Connecting hardware edge processors with Gemini API endpoints for custom advising synthesis.' }
+        { name: 'Python & NumPy', detail: 'Automated telemetry logs parsing, numerical computing, data pipelines, and FastAPI backend services.' },
+        { name: 'Computer Vision', detail: 'YOLOv8 object detection, ByteTrack multi-object tracking, OpenCV preprocessing, EasyOCR, and PyTorch inference.' },
+        { name: 'Predictive ML', detail: 'Training and deploying random forest algorithms, Ridge regression, NLP sentiment analysis, and Monte Carlo simulations.' },
+        { name: 'Web & Full-Stack', detail: 'React / TypeScript frontends, FastAPI backends, REST API design, and real-time WebSocket streams.' }
       ]
     },
     {
       id: 'systems',
       title: 'Systems & Testing',
       skills: [
-        { name: 'Robotics Control', detail: 'Feedback servo hunting algorithms, differential steering coordination, and PID control loops.' },
+        { name: 'Robotics Control', detail: 'Feedback servo hunting algorithms, differential steering coordination, PID control loops, and ROS 2 foundations.' },
         { name: 'IoT Telemetry Paths', detail: 'Configuring node-to-cloud interfaces matching analog rails with web analytics endpoints.' },
-        { name: 'Hardware Debugging', detail: 'Logic analyzer tracing, oscilloscope measurements, and logic level signal conditioning.' },
-        { name: 'LabVIEW & MATLAB', detail: 'Configuring virtual instrumentation panels and signal-processing math arrays.' }
+        { name: 'Hardware Debugging', detail: 'Logic analyzer tracing, oscilloscope measurements, multimeter diagnostics, and logic level signal conditioning.' },
+        { name: 'LabVIEW & MATLAB', detail: 'Configuring virtual instrumentation panels, Simulink models, and signal-processing math arrays.' }
       ]
     }
   ];

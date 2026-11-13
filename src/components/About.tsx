@@ -92,7 +92,7 @@ export const About: React.FC = () => {
             {/* Quick Metrics (Updated to clean Sans-Serif font) */}
             <motion.div variants={itemVariants} className="grid grid-cols-2 gap-8 pt-4">
               <div className="space-y-2">
-                <div className="font-sans text-3xl font-bold tracking-tight text-luxury-gold">8.5/10</div>
+                <div className="font-sans text-3xl font-bold tracking-tight text-luxury-gold">8.42/10</div>
                 <div className="font-sans text-[8px] uppercase tracking-[0.25em] text-luxury-grey font-bold">Cumulative GPA</div>
               </div>
               <div className="space-y-2">
