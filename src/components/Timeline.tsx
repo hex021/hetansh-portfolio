@@ -33,46 +33,54 @@ export const Timeline: React.FC = () => {
         </div>
 
         {/* Timeline Items Vertical Track */}
-        <div className="relative border-l border-luxury-gold/15 ml-4 md:ml-32 pl-8 md:pl-16 space-y-16">
-          {timelineData.map((item, index) => (
-            <motion.div
-              key={item.id || index}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="relative group"
-            >
-              {/* Timeline Indicator Dot */}
-              <div className="absolute -left-[39px] md:-left-[71px] top-1.5 w-3.5 h-3.5 rounded-full border border-luxury-gold bg-luxury-bg group-hover:scale-125 group-hover:bg-luxury-gold transition-all duration-300 shadow-gold-glow" />
+        {timelineData.length === 0 ? (
+          <div className="text-center py-20 border border-luxury-gold/10 bg-[#111111]/20 p-8">
+            <p className="text-sm uppercase tracking-widest text-luxury-grey">
+              No trajectory milestones currently logged.
+            </p>
+          </div>
+        ) : (
+          <div className="relative border-l border-luxury-gold/15 ml-4 md:ml-32 pl-8 md:pl-16 space-y-16">
+            {timelineData.map((item, index) => (
+              <motion.div
+                key={item.id || index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                className="relative group"
+              >
+                {/* Timeline Indicator Dot */}
+                <div className="absolute -left-[39px] md:-left-[71px] top-1.5 w-3.5 h-3.5 rounded-full border border-luxury-gold bg-luxury-bg group-hover:scale-125 group-hover:bg-luxury-gold transition-all duration-300 shadow-gold-glow" />
 
-              {/* Trajectory content */}
-              <div className="space-y-3 max-w-3xl">
-                <div className="flex flex-wrap items-center gap-4">
-                  <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-luxury-gold font-mono">
-                    {item.date}
-                  </span>
-                  <span className="text-xs text-luxury-grey uppercase tracking-wider font-light">
-                    // {item.institution}
-                  </span>
+                {/* Trajectory content */}
+                <div className="space-y-3 max-w-3xl">
+                  <div className="flex flex-wrap items-center gap-4">
+                    <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-luxury-gold font-mono">
+                      {item.date}
+                    </span>
+                    <span className="text-xs text-luxury-grey uppercase tracking-wider font-light">
+                      // {item.institution}
+                    </span>
+                  </div>
+
+                  <h3 className="font-sans text-lg md:text-xl font-bold uppercase tracking-wider text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
+                    {item.title}
+                  </h3>
+
+                  <ul className="space-y-2 pt-2 text-xs md:text-sm font-light text-[#B8BCC4] leading-relaxed tracking-wide">
+                    {item.highlights.map((highlight, hIndex) => (
+                      <li key={hIndex} className="flex items-start gap-3">
+                        <span className="text-luxury-gold/50 font-bold select-none mt-0.5">—</span>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                <h3 className="font-sans text-lg md:text-xl font-bold uppercase tracking-wider text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
-                  {item.title}
-                </h3>
-
-                <ul className="space-y-2 pt-2 text-xs md:text-sm font-light text-[#B8BCC4] leading-relaxed tracking-wide">
-                  {item.highlights.map((highlight, hIndex) => (
-                    <li key={hIndex} className="flex items-start gap-3">
-                      <span className="text-luxury-gold/50 font-bold select-none mt-0.5">—</span>
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
       </div>
     </section>

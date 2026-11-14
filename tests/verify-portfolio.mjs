@@ -83,7 +83,15 @@ assert.ok(achCats.includes('credentials'), 'Credentials category must exist');
 // Verify Timeline
 assert.ok(Array.isArray(initialPortfolioData.timeline), 'Timeline must be an array');
 assert.strictEqual(initialPortfolioData.timeline.length, 5, 'Must have 5 timeline milestones');
-console.log('✅ Test 2 Passed: Research, Achievements, and Timeline verified.\n');
+
+// Verify UI settings
+assert.ok(initialPortfolioData.ui, 'UI settings must exist');
+assert.strictEqual(initialPortfolioData.ui.accentColor, '#A61E2D', 'Default accent must be #A61E2D');
+assert.strictEqual(initialPortfolioData.ui.heroFirstName, 'Hetansh', 'Hero first name must match');
+assert.strictEqual(initialPortfolioData.ui.heroLastName, 'Patel', 'Hero last name must match');
+assert.strictEqual(typeof initialPortfolioData.ui.visibleSections, 'object', 'Visible sections must be an object');
+assert.strictEqual(initialPortfolioData.ui.visibleSections.projects, true, 'Projects section must be visible');
+console.log('✅ Test 2 Passed: Research, Achievements, Timeline, and UI settings verified.\n');
 
 // Test 3: Data Service CRUD & Persistence
 console.log('Test 3: Verifying Data Service CRUD, Export & Import...');
@@ -133,16 +141,20 @@ const jsonExport = exportPortfolioDataJSON();
 assert.ok(typeof jsonExport === 'string', 'Export must return a JSON string');
 const parsedExport = JSON.parse(jsonExport);
 assert.strictEqual(parsedExport.projects.length, 8, 'Exported JSON must contain 8 projects');
+assert.ok(parsedExport.ui, 'Exported JSON must contain UI settings');
 
 // 3d. Import JSON test
 const modifiedImport = {
   ...parsedExport,
-  profile: { ...parsedExport.profile, name: 'Hetansh Patel (Verified Systems Engineer)' }
+  profile: { ...parsedExport.profile, name: 'Hetansh Patel (Verified Systems Engineer)' },
+  ui: { ...parsedExport.ui, accentColor: '#D4AF37', directGithubClick: true }
 };
 const importRes = await importPortfolioDataJSON(JSON.stringify(modifiedImport));
 assert.strictEqual(importRes.success, true, 'Import must succeed for valid JSON');
 const afterImport = getStoredPortfolioData();
 assert.strictEqual(afterImport.profile.name, 'Hetansh Patel (Verified Systems Engineer)', 'Imported name must reflect in store');
+assert.strictEqual(afterImport.ui.accentColor, '#D4AF37', 'Imported accent color must reflect in store');
+assert.strictEqual(afterImport.ui.directGithubClick, true, 'Imported direct click flag must reflect in store');
 
 // 3e. Test Malformed JSON Import Handling
 const badImport = await importPortfolioDataJSON('INVALID_NON_JSON_STRING{{{');
@@ -154,6 +166,7 @@ await resetPortfolioData();
 const resetResult = getStoredPortfolioData();
 assert.strictEqual(resetResult.projects.length, 7, 'Must restore back to 7 projects on reset');
 assert.strictEqual(resetResult.profile.name, 'Hetansh Patel', 'Must restore default profile name');
+assert.strictEqual(resetResult.ui.accentColor, '#A61E2D', 'Must restore default accent color');
 console.log('✅ Test 3 Passed: Full CRUD, persistent LocalStorage sync, Export/Import & Reset verified.\n');
 
 // Test 4: Admin Authentication Layer
@@ -205,6 +218,36 @@ const fbStatus = getFirebaseStatus();
 assert.strictEqual(typeof fbStatus.configured, 'boolean', 'Firebase status must report boolean');
 assert.strictEqual(isFirebaseConfigured(), false, 'Without .env, should be false');
 console.log('✅ Test 5 Passed: Firebase fallback engine diagnostic verified.\n');
+
+// Test 6: Advanced Reordering, Deletion, and GitHub Redirection URL Validation
+console.log('Test 6: Advanced Project Reordering, Deletion & GitHub Redirection...');
+const initialData = getStoredPortfolioData();
+assert.strictEqual(initialData.projects.length, 7, 'Should have 7 projects initially');
+
+// 6a. Verify every project has a valid GitHub repo link
+initialData.projects.forEach(p => {
+  assert.ok(p.githubUrl, `Project ${p.title} must have githubUrl`);
+  assert.ok(p.githubUrl.startsWith('https://github.com/'), `Project ${p.title} githubUrl must be a valid GitHub URL`);
+});
+
+// 6b. Reorder projects
+const reordered = [initialData.projects[1], initialData.projects[0], ...initialData.projects.slice(2)];
+await savePortfolioData({ ...initialData, projects: reordered });
+const afterReorder = getStoredPortfolioData();
+assert.strictEqual(afterReorder.projects[0].id, initialData.projects[1].id, 'Reordered first project must match');
+assert.strictEqual(afterReorder.projects[1].id, initialData.projects[0].id, 'Reordered second project must match');
+
+// 6c. Project deletion & restore
+const withoutFirst = afterReorder.projects.slice(1);
+await savePortfolioData({ ...afterReorder, projects: withoutFirst });
+const afterDelete = getStoredPortfolioData();
+assert.strictEqual(afterDelete.projects.length, 6, 'Should have 6 projects after deletion');
+
+// Restore baseline
+await resetPortfolioData();
+const finalReset = getStoredPortfolioData();
+assert.strictEqual(finalReset.projects.length, 7, 'Should be restored back to 7 projects');
+console.log('✅ Test 6 Passed: Reordering, deletion, and GitHub URLs verified.\n');
 
 console.log('======================================================');
 console.log('🎉 ALL AUTOMATED VERIFICATION TESTS PASSED SUCCESSFULLY!');

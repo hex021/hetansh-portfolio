@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Cpu, Lock } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 interface NavbarProps {
   onNavigateToAdmin?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onNavigateToAdmin }) => {
+  const { data } = usePortfolio();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const profile = data.profile;
+  const firstName = data.ui?.heroFirstName || profile.name.split(' ')[0] || 'Hetansh';
+  const lastName = data.ui?.heroLastName || profile.name.split(' ').slice(1).join(' ') || 'Patel';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,15 +29,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToAdmin }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const vs = data.ui?.visibleSections;
   const navItems = [
-    { name: 'Vision', href: '#vision' },
-    { name: 'Expertise', href: '#expertise' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Research', href: '#research' },
-    { name: 'Timeline', href: '#timeline' },
-    { name: 'Milestones', href: '#achievements' },
-    { name: 'Beyond', href: '#beyond' },
-  ];
+    { name: 'Vision', href: '#vision', show: true },
+    { name: 'Expertise', href: '#expertise', show: vs?.expertise !== false },
+    { name: 'Projects', href: '#projects', show: vs?.projects !== false },
+    { name: 'Research', href: '#research', show: vs?.research !== false },
+    { name: 'Timeline', href: '#timeline', show: vs?.timeline !== false },
+    { name: 'Milestones', href: '#achievements', show: vs?.achievements !== false },
+    { name: 'Beyond', href: '#beyond', show: vs?.beyond !== false },
+  ].filter((item) => item.show);
 
   const handleAdminClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -66,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToAdmin }) => {
               <Cpu size={13} className="text-luxury-gold" />
             </div>
             <span className="font-sans text-sm font-bold tracking-[0.3em] uppercase">
-              Hetansh <span className="font-medium text-luxury-gold">Patel</span>
+              {firstName} <span className="font-medium text-luxury-gold">{lastName}</span>
             </span>
           </a>
 

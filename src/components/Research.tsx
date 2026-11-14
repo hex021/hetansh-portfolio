@@ -60,12 +60,22 @@ export const Research: React.FC = () => {
           </motion.div>
 
           {/* Research Cards */}
-          {researchItems.map((item) => (
+          {researchItems.length === 0 ? (
             <motion.div
-              key={item.id}
               variants={itemVariants}
-              className="w-full border border-luxury-gold/10 bg-[#111111]/20 p-8 md:p-12 space-y-10 luxury-card"
+              className="text-center py-20 border border-luxury-gold/10 bg-[#111111]/20 p-8"
             >
+              <p className="text-sm uppercase tracking-widest text-luxury-grey">
+                No active research projects currently logged.
+              </p>
+            </motion.div>
+          ) : (
+            researchItems.map((item) => (
+              <motion.div
+                key={item.id}
+                variants={itemVariants}
+                className="w-full border border-luxury-gold/10 bg-[#111111]/20 p-8 md:p-12 space-y-10 luxury-card"
+              >
               {/* Card Header */}
               <div className="space-y-6">
                 <div className="flex items-center gap-3">
@@ -189,7 +199,7 @@ export const Research: React.FC = () => {
                 </div>
               )}
             </motion.div>
-          ))}
+          )))}
         </motion.div>
       </div>
     </section>

@@ -6,7 +6,8 @@ import type {
   ResearchItem,
   AchievementItem,
   TimelineItem,
-  ProfileData
+  ProfileData,
+  UISettings
 } from '../types/portfolio';
 import {
   getStoredPortfolioData,
@@ -49,6 +50,9 @@ interface PortfolioContextType {
 
   // Profile CRUD
   updateProfile: (profile: Partial<ProfileData>) => Promise<void>;
+
+  // UI Settings
+  updateUISettings: (settings: Partial<UISettings>) => Promise<void>;
 }
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -209,6 +213,22 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     await handleSaveData(next);
   }, [data, handleSaveData]);
 
+  // UI Settings CRUD
+  const updateUISettings = useCallback(async (uiUpdate: Partial<UISettings>) => {
+    const next = {
+      ...data,
+      ui: {
+        ...data.ui,
+        ...uiUpdate,
+        visibleSections: {
+          ...data.ui.visibleSections,
+          ...(uiUpdate.visibleSections || {})
+        }
+      }
+    };
+    await handleSaveData(next);
+  }, [data, handleSaveData]);
+
   return (
     <PortfolioContext.Provider
       value={{
@@ -231,7 +251,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         addTimelineItem,
         updateTimelineItem,
         deleteTimelineItem,
-        updateProfile
+        updateProfile,
+        updateUISettings
       }}
     >
       {children}

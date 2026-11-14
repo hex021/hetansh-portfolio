@@ -32,6 +32,14 @@ export const getStoredPortfolioData = (): PortfolioData => {
       profile: {
         ...initialPortfolioData.profile,
         ...(parsed.profile || {})
+      },
+      ui: {
+        ...initialPortfolioData.ui,
+        ...(parsed.ui || {}),
+        visibleSections: {
+          ...initialPortfolioData.ui.visibleSections,
+          ...(parsed.ui?.visibleSections || {})
+        }
       }
     };
   } catch (error) {
@@ -156,6 +164,14 @@ export const importPortfolioDataJSON = async (
       research: Array.isArray(parsed.research) ? parsed.research : initialPortfolioData.research,
       achievements: Array.isArray(parsed.achievements) ? parsed.achievements : initialPortfolioData.achievements,
       timeline: Array.isArray(parsed.timeline) ? parsed.timeline : initialPortfolioData.timeline,
+      ui: {
+        ...initialPortfolioData.ui,
+        ...(parsed.ui || {}),
+        visibleSections: {
+          ...initialPortfolioData.ui.visibleSections,
+          ...(parsed.ui?.visibleSections || {})
+        }
+      },
       lastUpdated: new Date().toISOString()
     };
 

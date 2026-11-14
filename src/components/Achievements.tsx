@@ -89,16 +89,23 @@ export const Achievements: React.FC = () => {
             </div>
 
             {/* Milestone Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {currentCategory.items.map((item, index) => (
-                <motion.div
-                  key={item.id || index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className="luxury-card border border-luxury-gold/10 bg-[#111111]/20 p-8 flex flex-col justify-between space-y-6 group hover:border-luxury-gold/30 hover:bg-[#111111]/40 transition-all duration-500"
-                >
+            {currentCategory.items.length === 0 ? (
+              <div className="text-center py-20 border border-luxury-gold/10 bg-[#111111]/20 p-8">
+                <p className="text-sm uppercase tracking-widest text-luxury-grey">
+                  No records currently logged under this category.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {currentCategory.items.map((item, index) => (
+                  <motion.div
+                    key={item.id || index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                    className="luxury-card border border-luxury-gold/10 bg-[#111111]/20 p-8 flex flex-col justify-between space-y-6 group hover:border-luxury-gold/30 hover:bg-[#111111]/40 transition-all duration-500"
+                  >
                   <div className="space-y-4">
                     {/* Top Row: Year + Highlight Badge */}
                     <div className="flex items-center justify-between gap-2">
@@ -152,6 +159,7 @@ export const Achievements: React.FC = () => {
                 </motion.div>
               ))}
             </div>
+          )}
           </>
         )}
 

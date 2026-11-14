@@ -10,7 +10,8 @@ import {
   LogOut,
   ShieldCheck,
   Eye,
-  Cpu
+  Cpu,
+  Palette
 } from 'lucide-react';
 import { AdminLogin } from './AdminLogin';
 import { ProjectsManager } from './ProjectsManager';
@@ -18,6 +19,7 @@ import { ResearchManager } from './ResearchManager';
 import { AchievementsManager } from './AchievementsManager';
 import { TimelineManager } from './TimelineManager';
 import { ProfileManager } from './ProfileManager';
+import { UIManager } from './UIManager';
 import { CloudSettings } from './CloudSettings';
 import { getStoredAuthUser, logoutAdmin, type AdminUser } from '../../services/authService';
 
@@ -25,7 +27,7 @@ interface AdminSuiteProps {
   onBackToPortfolio: () => void;
 }
 
-type TabKey = 'projects' | 'research' | 'achievements' | 'timeline' | 'profile' | 'settings';
+type TabKey = 'projects' | 'research' | 'achievements' | 'timeline' | 'profile' | 'ui' | 'settings';
 
 export const AdminSuite: React.FC<AdminSuiteProps> = ({ onBackToPortfolio }) => {
   const [currentUser, setCurrentUser] = useState<AdminUser | null>(getStoredAuthUser);
@@ -51,6 +53,7 @@ export const AdminSuite: React.FC<AdminSuiteProps> = ({ onBackToPortfolio }) => 
     { key: 'achievements', label: 'Achievements', icon: <Trophy size={15} /> },
     { key: 'timeline', label: 'Trajectory Timeline', icon: <Calendar size={15} /> },
     { key: 'profile', label: 'Identity & Bio', icon: <User size={15} /> },
+    { key: 'ui', label: 'UI & Theme Design', icon: <Palette size={15} /> },
     { key: 'settings', label: 'Cloud & Database', icon: <Cloud size={15} /> },
   ];
 
@@ -152,6 +155,7 @@ export const AdminSuite: React.FC<AdminSuiteProps> = ({ onBackToPortfolio }) => 
           {activeTab === 'achievements' && <AchievementsManager />}
           {activeTab === 'timeline' && <TimelineManager />}
           {activeTab === 'profile' && <ProfileManager />}
+          {activeTab === 'ui' && <UIManager />}
           {activeTab === 'settings' && <CloudSettings />}
         </motion.div>
       </main>

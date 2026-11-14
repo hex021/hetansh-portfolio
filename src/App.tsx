@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
-import { PortfolioProvider } from './context/PortfolioContext';
+import { PortfolioProvider, usePortfolio } from './context/PortfolioContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -20,6 +20,17 @@ const AdminSuite = lazy(() =>
 );
 
 function PortfolioApp() {
+  const { data } = usePortfolio();
+  const vs = data.ui?.visibleSections;
+  const showCanvas = data.ui?.showBackgroundCanvas !== false;
+
+  // Dynamically synchronize theme accent color with CSS variables
+  useEffect(() => {
+    const accent = data.ui?.accentColor || '#A61E2D';
+    document.documentElement.style.setProperty('--color-luxury-gold', accent);
+    document.documentElement.style.setProperty('--theme-accent', accent);
+  }, [data.ui?.accentColor]);
+
   const [currentRoute, setCurrentRoute] = useState<'portfolio' | 'admin'>(() => {
     if (typeof window === 'undefined') return 'portfolio';
     const path = window.location.pathname;
@@ -74,7 +85,7 @@ function PortfolioApp() {
   return (
     <div className="relative z-0 min-h-screen bg-transparent text-luxury-text select-text">
       {/* Global ECE Background System */}
-      <ECEGlobalBackground />
+      {showCanvas && <ECEGlobalBackground />}
 
       {/* Floating navigation header */}
       <Navbar onNavigateToAdmin={() => navigateTo('admin')} />
@@ -85,37 +96,37 @@ function PortfolioApp() {
         <Hero />
 
         {/* Section 2: Bio details & background */}
-        <About />
+        {vs?.about !== false && <About />}
 
         {/* Section 3: Engineering Mindset creed */}
-        <Philosophy />
+        {vs?.philosophy !== false && <Philosophy />}
 
         {/* Section 4: Technical skillset & controls dashboard */}
-        <Expertise />
+        {vs?.expertise !== false && <Expertise />}
 
         {/* Section 5: Projects showcased as product launches */}
-        <Projects />
+        {vs?.projects !== false && <Projects />}
 
         {/* Section 6: Active Research & Sensor Instrumentation */}
-        <Research />
+        {vs?.research !== false && <Research />}
 
         {/* Section 7: Operations telemetry dashboard */}
-        <Dashboard />
+        {vs?.dashboard !== false && <Dashboard />}
 
         {/* Section 8: Three.js interactive network representation */}
-        <TechNetwork />
+        {vs?.network !== false && <TechNetwork />}
 
         {/* Section 9: Vertical trajectory timeline */}
-        <Timeline />
+        {vs?.timeline !== false && <Timeline />}
 
         {/* Section 10: Milestones & Key Achievements */}
-        <Achievements />
+        {vs?.achievements !== false && <Achievements />}
 
         {/* Section 11: Beyond Engineering interests */}
-        <BeyondEngineering />
+        {vs?.beyond !== false && <BeyondEngineering />}
 
         {/* Section 12: Glassmorphism contact module */}
-        <Contact onNavigateToAdmin={() => navigateTo('admin')} />
+        {vs?.contact !== false && <Contact onNavigateToAdmin={() => navigateTo('admin')} />}
       </main>
     </div>
   );

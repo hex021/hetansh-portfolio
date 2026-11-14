@@ -86,11 +86,38 @@ export interface ProfileData {
   bioSummary: string;
 }
 
+export interface VisibleSections {
+  about: boolean;
+  philosophy: boolean;
+  expertise: boolean;
+  projects: boolean;
+  research: boolean;
+  dashboard: boolean;
+  network: boolean;
+  timeline: boolean;
+  achievements: boolean;
+  beyond: boolean;
+  contact: boolean;
+}
+
+export interface UISettings {
+  accentColor: string; // e.g. '#A61E2D'
+  themePreset: 'crimson' | 'titanium' | 'gold' | 'emerald' | 'cobalt' | 'custom';
+  showBackgroundCanvas: boolean;
+  showPCBTraces: boolean;
+  directGithubClick: boolean; // whether clicking a project tab navigates directly to GitHub
+  heroFirstName?: string;
+  heroLastName?: string;
+  creedQuote?: string;
+  visibleSections: VisibleSections;
+}
+
 export interface PortfolioData {
   profile: ProfileData;
   projects: ProjectItem[];
   research: ResearchItem[];
   achievements: AchievementCategory[];
   timeline: TimelineItem[];
+  ui: UISettings;
   lastUpdated: string;
 }

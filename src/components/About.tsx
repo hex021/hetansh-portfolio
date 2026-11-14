@@ -1,8 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SemiconductorGrid } from './BackgroundSystem';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const About: React.FC = () => {
+  const { data } = usePortfolio();
+  const profile = data.profile;
+  const creed = data.ui?.creedQuote || '"We do not just compile code; we instruct electrons to manifest physical action."';
+  const showTraces = data.ui?.showPCBTraces !== false;
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -51,7 +57,7 @@ export const About: React.FC = () => {
       className="relative w-full min-h-screen bg-transparent py-36 px-8 md:px-16 flex flex-col justify-center overflow-hidden border-t border-luxury-gold/5"
     >
       {/* Semiconductor wafer grid alignment backdrop */}
-      <SemiconductorGrid />
+      {showTraces && <SemiconductorGrid />}
 
       {/* Decorative vertical editorial grid alignments */}
       <div className="absolute top-0 left-12 w-[1px] h-full bg-luxury-gold/[0.015]" />
@@ -79,20 +85,20 @@ export const About: React.FC = () => {
 
             <motion.div variants={itemVariants} className="space-y-8 font-sans text-xs md:text-sm font-light text-luxury-grey leading-relaxed max-w-md tracking-wider">
               <p>
-                I am Hetansh Patel, an Electronics & Communication Engineer specializing in robotics and embedded systems at Pandit Deendayal Energy University (PDEU).
+                I am {profile.name}, specializing in {profile.title} through {profile.degree} at {profile.university}.
               </p>
               <p>
                 I approach hardware design as a medium for physical agency. I build physical structures that acquire real-time telemetry, routing data streams across organic and digital boundaries.
               </p>
               <p className="border-l border-luxury-gold/30 pl-5 py-2 text-[10px] uppercase tracking-widest text-luxury-text italic">
-                "We do not just compile code; we instruct electrons to manifest physical action."
+                {creed}
               </p>
             </motion.div>
 
-            {/* Quick Metrics (Updated to clean Sans-Serif font) */}
+            {/* Quick Metrics */}
             <motion.div variants={itemVariants} className="grid grid-cols-2 gap-8 pt-4">
               <div className="space-y-2">
-                <div className="font-sans text-3xl font-bold tracking-tight text-luxury-gold">8.42/10</div>
+                <div className="font-sans text-3xl font-bold tracking-tight text-luxury-gold">{profile.gpa.split(' ')[0] || profile.gpa}</div>
                 <div className="font-sans text-[8px] uppercase tracking-[0.25em] text-luxury-grey font-bold">Cumulative GPA</div>
               </div>
               <div className="space-y-2">

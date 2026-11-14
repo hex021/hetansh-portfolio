@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const Hero: React.FC = () => {
   const [hoveredBtn, setHoveredBtn] = useState<string | null>(null);
+  const { data } = usePortfolio();
+  const profile = data.profile;
+  const firstName = data.ui?.heroFirstName || profile.name.split(' ')[0] || 'Hetansh';
+  const lastName = data.ui?.heroLastName || profile.name.split(' ').slice(1).join(' ') || 'Patel';
 
   return (
     <section 
@@ -16,6 +21,19 @@ export const Hero: React.FC = () => {
       {/* Hero Content */}
       <div className="max-w-5xl w-full text-center z-10 flex flex-col items-center space-y-10">
         
+        {/* Availability Status Badge */}
+        {profile.availability && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 border border-luxury-gold/30 bg-luxury-gold/5 text-[9px] uppercase tracking-[0.25em] font-mono text-luxury-gold font-bold"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold animate-pulse" />
+            <span>{profile.availability}</span>
+          </motion.div>
+        )}
+
         {/* Large Luxury Serif Title */}
         <div className="space-y-4">
           <motion.h1
@@ -24,17 +42,17 @@ export const Hero: React.FC = () => {
             transition={{ duration: 1.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-6xl md:text-9xl font-serif font-light tracking-wide text-luxury-text uppercase leading-none"
           >
-            Hetansh <span className="font-light italic text-transparent text-outline titanium-hero-text">Patel</span>
+            {firstName} <span className="font-light italic text-transparent text-outline titanium-hero-text">{lastName}</span>
           </motion.h1>
 
-          {/* Subtitle / Professional Spec (Re-balanced to Inter, enlarged) */}
+          {/* Subtitle / Professional Spec */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="font-sans text-sm md:text-base font-bold uppercase tracking-[0.4em] text-luxury-gold"
           >
-            ROBOTICS • EMBEDDED SYSTEMS • AI
+            {profile.title}
           </motion.p>
         </div>
 
@@ -45,7 +63,7 @@ export const Hero: React.FC = () => {
           transition={{ duration: 1.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="font-sans text-xs md:text-sm font-light tracking-widest text-luxury-grey max-w-2xl leading-loose"
         >
-          Architecting advanced cyber-physical technology. Designing low-latency hardware, embedded firmware networks, and robotic vector controllers with micro-millimeter precision.
+          {profile.bioSummary}
         </motion.p>
 
         {/* Action CTAs */}

@@ -7,11 +7,20 @@ import { usePortfolio } from '../context/PortfolioContext';
 export const Projects: React.FC = () => {
   const { data } = usePortfolio();
   const projectsData = data.projects;
+  const directClick = data.ui?.directGithubClick;
 
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
   const currentProject = projectsData.find((p) => p.id === selectedProjectId) || projectsData[0];
   const activeProject = currentProject?.id || '';
+
+  const handleTabClick = (project: (typeof projectsData)[0]) => {
+    if (directClick && project.githubUrl) {
+      window.open(project.githubUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      setSelectedProjectId(project.id);
+    }
+  };
 
   return (
     <section 
@@ -19,7 +28,7 @@ export const Projects: React.FC = () => {
       className="relative w-full min-h-screen bg-transparent py-36 px-8 md:px-16 flex flex-col justify-center overflow-hidden border-t border-luxury-gold/5"
     >
       {/* Subtle PCB Traces Background */}
-      <PCBTraceBackground />
+      {data.ui?.showPCBTraces !== false && <PCBTraceBackground />}
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         
@@ -48,30 +57,52 @@ export const Projects: React.FC = () => {
             
             {/* Left Tabs Column */}
             <div className="lg:col-span-4 space-y-5">
+              {directClick && (
+                <div className="p-3 border border-luxury-gold/30 bg-luxury-gold/5 text-[10px] font-mono text-luxury-gold uppercase tracking-wider flex items-center justify-between">
+                  <span>Direct GitHub Redirect Mode</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold animate-pulse" />
+                </div>
+              )}
               {projectsData.map((project) => (
                 <button
                   key={project.id}
-                  onClick={() => setSelectedProjectId(project.id)}
+                  onClick={() => handleTabClick(project)}
                   className={`w-full text-left p-7 md:p-8 border transition-all duration-500 relative flex justify-between items-center group cursor-pointer ${
                     activeProject === project.id
                       ? 'border-luxury-gold bg-luxury-gold/5 text-luxury-text shadow-gold-glow'
                       : 'border-luxury-gold/5 text-luxury-grey hover:text-luxury-text hover:border-luxury-gold/20'
                   }`}
                 >
-                  <div className="space-y-2 font-sans">
-                    <span className="text-[10px] tracking-widest text-luxury-gold font-bold uppercase">
+                  <div className="space-y-2 font-sans flex-1 pr-3">
+                    <span className="text-[10px] tracking-widest text-luxury-gold font-bold uppercase block">
                       {project.category}
                     </span>
                     <h3 className="text-sm uppercase tracking-wider font-bold">
                       {project.title}
                     </h3>
                   </div>
-                  <ChevronRight 
-                    size={16} 
-                    className={`transition-transform duration-350 ${
-                      activeProject === project.id ? 'translate-x-1 text-luxury-gold' : 'text-luxury-grey group-hover:text-luxury-text'
-                    }`} 
-                  />
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    {/* Direct GitHub Link shortcut button */}
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        title={`Open ${project.title} on GitHub`}
+                        className="p-2 border border-luxury-gold/20 hover:border-luxury-gold text-luxury-grey hover:text-luxury-gold transition-colors bg-[#111111]/60"
+                      >
+                        <ExternalLink size={12} />
+                      </a>
+                    )}
+                    <ChevronRight 
+                      size={16} 
+                      className={`transition-transform duration-350 ${
+                        activeProject === project.id ? 'translate-x-1 text-luxury-gold' : 'text-luxury-grey group-hover:text-luxury-text'
+                      }`} 
+                    />
+                  </div>
                 </button>
               ))}
             </div>
@@ -91,9 +122,25 @@ export const Projects: React.FC = () => {
                     {/* Details Column */}
                     <div className="md:col-span-7 space-y-10 flex flex-col justify-between">
                       <div className="space-y-6">
-                        <span className="font-sans text-[10px] tracking-[0.25em] text-luxury-gold font-bold uppercase block">
-                          SPECIFICATIONS
-                        </span>
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <span className="font-sans text-[10px] tracking-[0.25em] text-luxury-gold font-bold uppercase block">
+                            SPECIFICATIONS
+                          </span>
+
+                          {/* Prominent GitHub Repository Pill Redirect */}
+                          {currentProject.githubUrl && (
+                            <a
+                              href={currentProject.githubUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1 border border-luxury-gold/30 bg-luxury-gold/10 hover:bg-luxury-gold hover:text-luxury-bg text-luxury-gold text-[10px] uppercase font-bold tracking-[0.2em] transition-all cursor-pointer group/repo"
+                              title="Click to open project repository on GitHub"
+                            >
+                              <span>GitHub Repository</span>
+                              <ExternalLink size={11} className="group-hover/repo:translate-x-0.5 group-hover/repo:-translate-y-0.5 transition-transform" />
+                            </a>
+                          )}
+                        </div>
                         
                         {/* Clickable project title linking to GitHub repository */}
                         {currentProject.githubUrl ? (
@@ -101,13 +148,13 @@ export const Projects: React.FC = () => {
                             href={currentProject.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="group/title inline-flex items-center gap-2"
+                            className="group/title inline-flex items-center gap-2 cursor-pointer"
                             title="Click to visit GitHub repository"
                           >
                             <h3 className="font-sans text-lg md:text-xl uppercase tracking-widest font-bold text-luxury-text group-hover/title:text-luxury-gold transition-colors leading-tight">
                               {currentProject.title}
                             </h3>
-                            <ExternalLink size={14} className="text-luxury-gold opacity-0 group-hover/title:opacity-100 transition-opacity" />
+                            <ExternalLink size={14} className="text-luxury-gold opacity-60 group-hover/title:opacity-100 transition-opacity" />
                           </a>
                         ) : (
                           <h3 className="font-sans text-lg md:text-xl uppercase tracking-widest font-bold text-luxury-text leading-tight">

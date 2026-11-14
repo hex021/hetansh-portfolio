@@ -1,7 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const Philosophy: React.FC = () => {
+  const { data } = usePortfolio();
+  const creedQuote = data.ui?.creedQuote || '"Curiosity is the engine; precision is the guide. Building is not a hobby—it is a dedication to solving modern inefficiencies."';
+
   const pillars = [
     {
       num: "01",
@@ -39,7 +43,7 @@ export const Philosophy: React.FC = () => {
             </h2>
             <div className="w-16 h-[1px] bg-luxury-gold/40 my-6" />
             <p className="font-sans text-xs text-luxury-grey tracking-widest uppercase leading-loose max-w-xs font-light">
-              "Curiosity is the engine; precision is the guide. Building is not a hobby—it is a dedication to solving modern inefficiencies."
+              {creedQuote}
             </p>
           </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { usePortfolio } from '../context/PortfolioContext';
 
 interface MetricModule {
   num: string;
@@ -9,11 +10,16 @@ interface MetricModule {
 }
 
 export const Dashboard: React.FC = () => {
+  const { data } = usePortfolio();
+  const projectCount = data.projects.length;
+  const buildValue = String(projectCount).padStart(2, '0') + '+';
+  const gpaValue = data.profile.gpa.split(' ')[0] || data.profile.gpa;
+
   const metrics: MetricModule[] = [
     {
       num: "01",
       label: "Execution Builds",
-      value: "07+",
+      value: buildValue,
       desc: "Microcontroller telemetry rigs, gesture controls, autonomous robotic models, computer vision platforms, and financial analytics systems constructed."
     },
     {
@@ -25,8 +31,8 @@ export const Dashboard: React.FC = () => {
     {
       num: "03",
       label: "Academic Standing",
-      value: "8.42/10",
-      desc: "Cumulative GPA maintained in Electronics & Communication at PDEU."
+      value: gpaValue,
+      desc: `Cumulative GPA maintained in ${data.profile.degree} at ${data.profile.university}.`
     }
   ];
 

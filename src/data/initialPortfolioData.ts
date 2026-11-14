@@ -355,5 +355,28 @@ export const initialPortfolioData: PortfolioData = {
       ]
     }
   ],
+  ui: {
+    accentColor: '#A61E2D',
+    themePreset: 'crimson',
+    showBackgroundCanvas: true,
+    showPCBTraces: true,
+    directGithubClick: false,
+    heroFirstName: 'Hetansh',
+    heroLastName: 'Patel',
+    creedQuote: '"We do not just compile code; we instruct electrons to manifest physical action."',
+    visibleSections: {
+      about: true,
+      philosophy: true,
+      expertise: true,
+      projects: true,
+      research: true,
+      dashboard: true,
+      network: true,
+      timeline: true,
+      achievements: true,
+      beyond: true,
+      contact: true
+    }
+  },
   lastUpdated: new Date().toISOString()
 };
