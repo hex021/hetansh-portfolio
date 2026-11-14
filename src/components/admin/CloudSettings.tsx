@@ -13,7 +13,11 @@ import {
 } from 'lucide-react';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { getFirebaseStatus } from '../../services/firebase';
-import { updateAdminPassword } from '../../services/authService';
+import { 
+  getActiveAdminUsername, 
+  updateAdminCredentials, 
+  resetAdminCredentialsToDefault 
+} from '../../services/authService';
 
 export const CloudSettings: React.FC = () => {
   const { data, saveData, resetData, exportData, importData } = usePortfolio();
@@ -26,10 +30,12 @@ export const CloudSettings: React.FC = () => {
   const [showImportBox, setShowImportBox] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-  // Password Change
+  // Credentials Change
+  const [currentUsername, setCurrentUsername] = useState(() => getActiveAdminUsername());
+  const [newUsername, setNewUsername] = useState(() => getActiveAdminUsername());
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [pwdMessage, setPwdMessage] = useState<string | null>(null);
+  const [pwdMessage, setPwdMessage] = useState<{ text: string; isError?: boolean } | null>(null);
 
   const firebaseStatus = getFirebaseStatus();
 
@@ -89,23 +95,40 @@ export const CloudSettings: React.FC = () => {
     setTimeout(() => setStatusMessage(null), 3000);
   };
 
-  const handleChangePassword = (e: React.FormEvent) => {
+  const handleChangeCredentials = (e: React.FormEvent) => {
     e.preventDefault();
     setPwdMessage(null);
 
-    if (newPassword.length < 6) {
-      setPwdMessage('Password must be at least 6 characters.');
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setPwdMessage('Passwords do not match.');
-      return;
+    if (newPassword || confirmPassword) {
+      if (newPassword.length < 6) {
+        setPwdMessage({ text: 'Password must be at least 6 characters long.', isError: true });
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        setPwdMessage({ text: 'Passwords do not match.', isError: true });
+        return;
+      }
     }
 
-    updateAdminPassword(newPassword);
+    const res = updateAdminCredentials(newUsername, newPassword || undefined);
+    if (res.success) {
+      setCurrentUsername(newUsername.trim());
+      setNewPassword('');
+      setConfirmPassword('');
+      setPwdMessage({ text: res.message });
+      setTimeout(() => setPwdMessage(null), 4000);
+    } else {
+      setPwdMessage({ text: res.message, isError: true });
+    }
+  };
+
+  const handleResetCredentials = () => {
+    resetAdminCredentialsToDefault();
+    setCurrentUsername('hetansh');
+    setNewUsername('hetansh');
     setNewPassword('');
     setConfirmPassword('');
-    setPwdMessage('Administrative password updated successfully for this browser.');
+    setPwdMessage({ text: 'Admin ID & Password reset to default (hetansh / hetansh-ece-2026).' });
     setTimeout(() => setPwdMessage(null), 4000);
   };
 
@@ -301,57 +324,101 @@ export const CloudSettings: React.FC = () => {
         </form>
       )}
 
-      {/* Security: Change Master Password */}
-      <div className="border border-[#A61E2D]/20 bg-[#0E0E0E] p-6 md:p-8 space-y-5">
-        <div className="flex items-center gap-2 border-b border-white/10 pb-3">
-          <Key size={16} className="text-[#A61E2D]" />
-          <h3 className="text-xs uppercase tracking-widest font-bold text-[#F5F5F5]">
-            Administrative Security Key Override
-          </h3>
-        </div>
-
-        {pwdMessage && (
-          <div className="p-2.5 bg-[#A61E2D]/10 border border-[#A61E2D]/30 text-xs text-[#F5F5F5]">
-            {pwdMessage}
-          </div>
-        )}
-
-        <form onSubmit={handleChangePassword} className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-          <div className="space-y-1.5">
-            <label className="text-[10px] uppercase text-[#A0A0A0]">New Security Password</label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="••••••••••••"
-              required
-              className="w-full bg-[#151515] border border-[#A61E2D]/20 px-3 py-2 text-xs text-[#F5F5F5] focus:outline-none focus:border-[#A61E2D] font-mono"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-[10px] uppercase text-[#A0A0A0]">Confirm Password</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="••••••••••••"
-              required
-              className="w-full bg-[#151515] border border-[#A61E2D]/20 px-3 py-2 text-xs text-[#F5F5F5] focus:outline-none focus:border-[#A61E2D] font-mono"
-            />
+      {/* Security: Change Admin ID & Password */}
+      <div className="border border-[#A61E2D]/20 bg-[#0E0E0E] p-6 md:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div className="flex items-center gap-2.5">
+            <Key size={16} className="text-[#A61E2D]" />
+            <div>
+              <h3 className="text-xs uppercase tracking-widest font-bold text-[#F5F5F5]">
+                Admin Access Credentials (Change ID &amp; Password)
+              </h3>
+              <p className="text-[10px] text-[#A0A0A0] mt-0.5">
+                Currently logged in as active admin: <span className="text-[#A61E2D] font-mono font-bold">"{currentUsername}"</span>
+              </p>
+            </div>
           </div>
 
           <button
-            type="submit"
-            className="py-2.5 px-4 bg-[#181818] border border-[#A61E2D]/40 hover:bg-[#A61E2D] text-[#F5F5F5] text-xs font-bold uppercase tracking-wider transition-colors"
+            type="button"
+            onClick={handleResetCredentials}
+            className="text-[10px] text-[#A0A0A0] hover:text-[#A61E2D] uppercase font-mono tracking-wider flex items-center gap-1 self-start sm:self-auto cursor-pointer"
+            title="Reset to factory credentials: hetansh / hetansh-ece-2026"
           >
-            Update Password
+            <RotateCcw size={11} />
+            <span>Reset to Default</span>
           </button>
+        </div>
+
+        {pwdMessage && (
+          <div className={`p-3 border text-xs flex items-center gap-2 ${
+            pwdMessage.isError 
+              ? 'bg-red-950/40 border-red-500/50 text-red-200' 
+              : 'bg-[#A61E2D]/10 border-[#A61E2D]/40 text-[#F5F5F5]'
+          }`}>
+            {pwdMessage.isError ? <AlertTriangle size={14} className="text-red-400" /> : <Check size={14} className="text-[#A61E2D]" />}
+            <span>{pwdMessage.text}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleChangeCredentials} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Username / Admin ID */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] uppercase text-[#A0A0A0] font-bold">Admin ID / Username</label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  placeholder="New Admin ID"
+                  required
+                  className="w-full bg-[#151515] border border-[#A61E2D]/20 px-3 py-2 text-xs text-[#F5F5F5] focus:outline-none focus:border-[#A61E2D] font-mono"
+                />
+              </div>
+            </div>
+
+            {/* New Password */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] uppercase text-[#A0A0A0] font-bold">New Password (leave empty to keep current)</label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="New Password (min 6 chars)"
+                className="w-full bg-[#151515] border border-[#A61E2D]/20 px-3 py-2 text-xs text-[#F5F5F5] focus:outline-none focus:border-[#A61E2D] font-mono"
+              />
+            </div>
+
+            {/* Confirm Password */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] uppercase text-[#A0A0A0] font-bold">Confirm New Password</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm New Password"
+                className="w-full bg-[#151515] border border-[#A61E2D]/20 px-3 py-2 text-xs text-[#F5F5F5] focus:outline-none focus:border-[#A61E2D] font-mono"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              type="submit"
+              className="py-2.5 px-6 bg-[#A61E2D] hover:bg-[#C1273D] text-[#F5F5F5] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-gold-glow flex items-center gap-2"
+            >
+              <Key size={13} />
+              <span>Update ID &amp; Password</span>
+            </button>
+          </div>
         </form>
 
-        <div className="flex items-center gap-2 text-[10px] text-[#777] font-mono">
-          <Info size={12} className="text-[#A61E2D]" />
-          <span>Defaults remain `hetansh-ece-2026` or `admin123` unless overridden.</span>
+        <div className="flex items-start gap-2 text-[10px] text-[#777] font-mono bg-[#121212] p-3 border border-white/5">
+          <Info size={13} className="text-[#A61E2D] shrink-0 mt-0.5" />
+          <span>
+            Credentials are saved in your browser storage. If you want cross-device cloud authentication with email/password hosted on Google Cloud, connect Firebase in `.env`.
+          </span>
         </div>
       </div>
     </div>

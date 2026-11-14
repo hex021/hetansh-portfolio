@@ -11,8 +11,8 @@ interface AdminLoginProps {
 }
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBackToPortfolio }) => {
-  const [identifier, setIdentifier] = useState('hetansh');
-  const [password, setPassword] = useState('hetansh-ece-2026');
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
   const [useFirebase, setUseFirebase] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -37,17 +37,6 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBackToPortf
     } finally {
       setLoading(false);
     }
-  };
-
-  const autofillDemo = (account: 'owner' | 'admin') => {
-    if (account === 'owner') {
-      setIdentifier('hetansh');
-      setPassword('hetansh-ece-2026');
-    } else {
-      setIdentifier('admin');
-      setPassword('admin123');
-    }
-    setError(null);
   };
 
   return (
@@ -196,32 +185,6 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBackToPortf
               )}
             </button>
           </form>
-
-          {/* Quick Demo Credentials Assistant */}
-          <div className="pt-4 border-t border-[#A61E2D]/10">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] uppercase tracking-wider text-[#A0A0A0]">Quick Access Credentials:</span>
-              <span className="text-[9px] text-[#A61E2D] font-mono">1-CLICK LOGIN</span>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => autofillDemo('owner')}
-                className="p-2 border border-[#A61E2D]/15 bg-[#141414] hover:border-[#A61E2D]/50 text-left transition-colors"
-              >
-                <div className="text-[10px] text-[#F5F5F5] font-bold uppercase">Hetansh (Owner)</div>
-                <div className="text-[9px] text-[#A0A0A0] font-mono">hetansh / hetansh-ece-2026</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => autofillDemo('admin')}
-                className="p-2 border border-[#A61E2D]/15 bg-[#141414] hover:border-[#A61E2D]/50 text-left transition-colors"
-              >
-                <div className="text-[10px] text-[#F5F5F5] font-bold uppercase">Admin (Standard)</div>
-                <div className="text-[9px] text-[#A0A0A0] font-mono">admin / admin123</div>
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Security badge footer */}

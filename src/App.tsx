@@ -88,7 +88,7 @@ function PortfolioApp() {
       {showCanvas && <ECEGlobalBackground />}
 
       {/* Floating navigation header */}
-      <Navbar onNavigateToAdmin={() => navigateTo('admin')} />
+      <Navbar />
 
       {/* Immersive sections */}
       <main className="relative w-full">
@@ -126,7 +126,7 @@ function PortfolioApp() {
         {vs?.beyond !== false && <BeyondEngineering />}
 
         {/* Section 12: Glassmorphism contact module */}
-        {vs?.contact !== false && <Contact onNavigateToAdmin={() => navigateTo('admin')} />}
+        {vs?.contact !== false && <Contact />}
       </main>
     </div>
   );

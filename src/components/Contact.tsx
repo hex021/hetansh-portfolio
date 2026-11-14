@@ -1,13 +1,9 @@
 import React from 'react';
-import { Mail, Phone, ArrowUpRight, Lock } from 'lucide-react';
+import { Mail, Phone, ArrowUpRight } from 'lucide-react';
 import { OscilloscopeBackground } from './BackgroundSystem';
 import { usePortfolio } from '../context/PortfolioContext';
 
-interface ContactProps {
-  onNavigateToAdmin?: () => void;
-}
-
-export const Contact: React.FC<ContactProps> = ({ onNavigateToAdmin }) => {
+export const Contact: React.FC = () => {
   const { data } = usePortfolio();
   const profile = data.profile;
 
@@ -32,16 +28,6 @@ export const Contact: React.FC<ContactProps> = ({ onNavigateToAdmin }) => {
     },
     { icon: <Mail size={18} />, url: `mailto:${profile.email}`, label: 'Email' }
   ];
-
-  const handleAdminClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (onNavigateToAdmin) {
-      onNavigateToAdmin();
-    } else {
-      window.history.pushState(null, '', '/admin');
-      window.dispatchEvent(new PopStateEvent('popstate'));
-    }
-  };
 
   return (
     <section 
@@ -181,26 +167,13 @@ export const Contact: React.FC<ContactProps> = ({ onNavigateToAdmin }) => {
 
         </div>
 
-        {/* Footer info & Discreet Admin link */}
+        {/* Footer info */}
         <div className="mt-36 pt-8 border-t border-luxury-gold/10 flex flex-col md:flex-row justify-between items-center gap-4 font-sans text-[8px] uppercase tracking-[0.25em] text-luxury-grey/70">
           <div>© 2026 Hetansh Patel. All rights reserved.</div>
           
-          <div className="flex items-center gap-6">
-            <div className="flex gap-2">
-              <span className="text-luxury-gold font-semibold">Precision Designed.</span>
-              <span>Made with React &amp; Three.js</span>
-            </div>
-
-            {/* Discreet Admin Console Entry Point */}
-            <a
-              href="/admin"
-              onClick={handleAdminClick}
-              className="flex items-center gap-1.5 text-luxury-grey hover:text-luxury-gold transition-colors py-1 px-2 border border-luxury-gold/15 bg-[#111111]/40 hover:border-luxury-gold/40 cursor-pointer"
-              title="Open Protected Admin Console"
-            >
-              <Lock size={10} className="text-luxury-gold" />
-              <span>Admin Console</span>
-            </a>
+          <div className="flex gap-2">
+            <span className="text-luxury-gold font-semibold">Precision Designed.</span>
+            <span>Made with React &amp; Three.js</span>
           </div>
         </div>
 
