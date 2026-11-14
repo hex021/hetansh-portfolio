@@ -39,6 +39,9 @@ assert.strictEqual(typeof initialPortfolioData.profile, 'object', 'Profile must 
 assert.strictEqual(initialPortfolioData.profile.name, 'Hetansh Patel', 'Name must be Hetansh Patel');
 assert.strictEqual(initialPortfolioData.profile.gpa, '8.42 / 10 (till 4th Semester)', 'GPA must match 8.42');
 assert.strictEqual(initialPortfolioData.profile.phone, '+91 87582 96710', 'Phone number must match');
+assert.strictEqual(initialPortfolioData.profile.resumeUrl, '/Hetansh_Patel_Resume.pdf', 'Default resume URL must be /Hetansh_Patel_Resume.pdf');
+assert.strictEqual(initialPortfolioData.profile.resumeFileName, 'Hetansh_Patel_Resume.pdf', 'Default resume filename must match');
+assert.ok(Array.isArray(initialPortfolioData.profile.customLinks), 'customLinks must be an array');
 
 // Verify Projects
 assert.ok(Array.isArray(initialPortfolioData.projects), 'Projects must be an array');
@@ -161,13 +164,29 @@ const badImport = await importPortfolioDataJSON('INVALID_NON_JSON_STRING{{{');
 assert.strictEqual(badImport.success, false, 'Import must fail gracefully on bad JSON');
 assert.ok(badImport.error, 'Must provide descriptive error message');
 
-// 3f. Reset to Defaults
+// 3f. Test updating Resume and Custom Hyperlinks
+const currentData = getStoredPortfolioData();
+currentData.profile.resumeUrl = 'data:application/pdf;base64,JVBERi0xLjQKJVRlc3Q=';
+currentData.profile.resumeFileName = 'Hetansh_Resume_Updated.pdf';
+currentData.profile.linkedinUrl = 'https://linkedin.com/in/hetansh-patel-updated';
+currentData.profile.customLinks = [
+  { id: 'kaggle-1', label: 'Kaggle', url: 'https://kaggle.com/hex021' }
+];
+await savePortfolioData(currentData);
+const reloadedProfile = getStoredPortfolioData().profile;
+assert.strictEqual(reloadedProfile.resumeUrl, 'data:application/pdf;base64,JVBERi0xLjQKJVRlc3Q=', 'Updated resume base64 URL must persist');
+assert.strictEqual(reloadedProfile.resumeFileName, 'Hetansh_Resume_Updated.pdf', 'Updated resume file name must persist');
+assert.strictEqual(reloadedProfile.linkedinUrl, 'https://linkedin.com/in/hetansh-patel-updated', 'Updated LinkedIn URL must persist');
+assert.strictEqual(reloadedProfile.customLinks.length, 1, 'Custom links must persist');
+assert.strictEqual(reloadedProfile.customLinks[0].label, 'Kaggle', 'Custom link label must match');
+
+// 3g. Reset to Defaults
 await resetPortfolioData();
 const resetResult = getStoredPortfolioData();
 assert.strictEqual(resetResult.projects.length, 7, 'Must restore back to 7 projects on reset');
 assert.strictEqual(resetResult.profile.name, 'Hetansh Patel', 'Must restore default profile name');
 assert.strictEqual(resetResult.ui.accentColor, '#A61E2D', 'Must restore default accent color');
-console.log('✅ Test 3 Passed: Full CRUD, persistent LocalStorage sync, Export/Import & Reset verified.\n');
+console.log('✅ Test 3 Passed: Full CRUD, persistent LocalStorage sync, Resume & Hyperlinks, Export/Import & Reset verified.\n');
 
 // Test 4: Admin Authentication Layer
 console.log('Test 4: Verifying Admin Authentication Layer...');

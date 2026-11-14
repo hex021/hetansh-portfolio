@@ -86,11 +86,11 @@ export const Hero: React.FC = () => {
 
           {/* Secondary specs / resume */}
           <a
-            href="/Hetansh_Patel_Resume.pdf"
-            download="Hetansh_Patel_Resume.pdf"
+            href={profile.resumeUrl || '/Hetansh_Patel_Resume.pdf'}
+            download={profile.resumeFileName || 'Hetansh_Patel_Resume.pdf'}
             target="_blank"
-            rel="noreferrer"
-            className="w-full sm:w-auto px-10 py-4 border border-white/10 hover:border-luxury-gold bg-transparent text-luxury-text font-sans text-[10px] uppercase tracking-[0.25em] flex items-center justify-center gap-3 hover:text-luxury-gold transition-all duration-500"
+            rel="noreferrer noopener"
+            className="w-full sm:w-auto px-10 py-4 border border-white/10 hover:border-luxury-gold bg-transparent text-luxury-text font-sans text-[10px] uppercase tracking-[0.25em] flex items-center justify-center gap-3 hover:text-luxury-gold transition-all duration-500 cursor-pointer"
           >
             Resume
           </a>

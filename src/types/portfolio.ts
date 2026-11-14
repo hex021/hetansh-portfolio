@@ -67,6 +67,12 @@ export interface TimelineItem {
   highlights: string[];
 }
 
+export interface CustomLinkItem {
+  id: string;
+  label: string;
+  url: string;
+}
+
 export interface ProfileData {
   name: string;
   title: string;
@@ -80,6 +86,10 @@ export interface ProfileData {
   university: string;
   githubUrl: string;
   linkedinUrl: string;
+  twitterUrl?: string;
+  customLinks?: CustomLinkItem[];
+  resumeUrl?: string;
+  resumeFileName?: string;
   statusBadge: string;
   availability: string;
   bioHeading: string;
