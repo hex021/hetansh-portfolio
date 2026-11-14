@@ -46,7 +46,7 @@ export const Research: React.FC = () => {
           {/* Section Header */}
           <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div className="space-y-4">
-              <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
+              <span className="font-sans text-xs tracking-[0.3em] uppercase text-luxury-gold font-bold">
                 05 / Research
               </span>
               <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wide text-luxury-text leading-tight">
@@ -54,9 +54,6 @@ export const Research: React.FC = () => {
                 <span className="font-light italic text-transparent text-outline">Research</span>
               </h2>
             </div>
-            <p className="font-sans text-xs text-luxury-grey tracking-widest uppercase max-w-sm font-light">
-              ADVANCING THE FRONTIER OF STRUCTURAL HEALTH MONITORING THROUGH EMBEDDED SENSOR INTELLIGENCE.
-            </p>
           </motion.div>
 
           {/* Research Cards */}
@@ -90,22 +87,22 @@ export const Research: React.FC = () => {
                 </h3>
 
                 {/* Meta row */}
-                <div className="flex flex-wrap gap-x-8 gap-y-3 text-[11px] font-sans text-luxury-grey tracking-wider uppercase">
+                <div className="flex flex-wrap gap-x-8 gap-y-3 text-xs font-sans text-[#A8A8A8] tracking-wider uppercase">
                   <span className="flex items-center gap-2">
-                    <Calendar size={12} className="text-luxury-gold/60" />
+                    <Calendar size={13} className="text-luxury-gold/80" />
                     {item.period}
                   </span>
                   <span className="flex items-center gap-2">
-                    <User size={12} className="text-luxury-gold/60" />
+                    <User size={13} className="text-luxury-gold/80" />
                     Primary Hardware &amp; Instrumentation Lead
                   </span>
                   <span className="flex items-center gap-2">
-                    <MapPin size={12} className="text-luxury-gold/60" />
+                    <MapPin size={13} className="text-luxury-gold/80" />
                     {item.location}
                   </span>
                 </div>
 
-                <div className="font-sans text-[11px] text-luxury-grey tracking-wider uppercase">
+                <div className="font-sans text-xs md:text-sm text-[#CCCCCC] tracking-wider uppercase">
                   <span className="text-luxury-gold font-bold">Supervisor:</span>{' '}
                   {item.supervisor} ({item.department})
                 </div>
@@ -118,10 +115,10 @@ export const Research: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                 {/* Description */}
                 <div className="lg:col-span-7 space-y-6">
-                  <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-text font-bold">
+                  <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-luxury-text font-bold">
                     Project Overview
                   </h4>
-                  <p className="font-sans text-xs md:text-sm font-light text-luxury-grey leading-relaxed tracking-wider">
+                  <p className="font-sans text-sm md:text-base font-normal text-[#C5C5C5] leading-relaxed">
                     {item.summary}
                   </p>
 
@@ -130,26 +127,26 @@ export const Research: React.FC = () => {
                       href={item.docUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-xs font-mono uppercase text-luxury-gold hover:underline pt-2"
+                      className="inline-flex items-center gap-2 text-xs font-mono uppercase text-luxury-gold hover:underline pt-2 font-medium"
                     >
                       <span>Repository Documentation</span>
-                      <ExternalLink size={12} />
+                      <ExternalLink size={13} />
                     </a>
                   )}
                 </div>
 
                 {/* Key Contributions */}
                 <div className="lg:col-span-5 space-y-6">
-                  <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-gold font-bold">
+                  <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-luxury-gold font-bold">
                     Key Contributions
                   </h4>
                   <ul className="space-y-4">
                     {item.contributions.map((contribution, i) => (
                       <li
                         key={i}
-                        className="font-sans text-xs text-[#B8BCC4] leading-relaxed tracking-wide flex items-start gap-3"
+                        className="font-sans text-xs md:text-sm text-[#B8BCC4] leading-relaxed flex items-start gap-3"
                       >
-                        <span className="text-luxury-gold/40 font-bold mt-px select-none">—</span>
+                        <span className="text-luxury-gold/60 font-bold mt-px select-none">—</span>
                         {contribution}
                       </li>
                     ))}

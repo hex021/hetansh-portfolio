@@ -4,7 +4,7 @@ import { usePortfolio } from '../context/PortfolioContext';
 
 export const Philosophy: React.FC = () => {
   const { data } = usePortfolio();
-  const creedQuote = data.ui?.creedQuote || '"Curiosity is the engine; precision is the guide. Building is not a hobby—it is a dedication to solving modern inefficiencies."';
+  const creedQuote = data.ui?.creedQuote || '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
 
   const pillars = [
     {
@@ -42,7 +42,7 @@ export const Philosophy: React.FC = () => {
               <span className="font-light italic text-transparent text-outline">With Purpose</span>
             </h2>
             <div className="w-16 h-[1px] bg-luxury-gold/40 my-6" />
-            <p className="font-sans text-xs text-luxury-grey tracking-widest uppercase leading-loose max-w-xs font-light">
+            <p className="font-sans text-xs md:text-sm text-[#D5D5D5] tracking-wide uppercase leading-relaxed max-w-sm font-medium">
               {creedQuote}
             </p>
           </div>
@@ -65,10 +65,10 @@ export const Philosophy: React.FC = () => {
                 
                 {/* Pillar Content */}
                 <div className="md:col-span-10 space-y-3">
-                  <h3 className="font-sans text-xs uppercase font-bold tracking-widest text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
+                  <h3 className="font-sans text-sm uppercase font-bold tracking-wider text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
                     {pillar.title}
                   </h3>
-                  <p className="font-sans text-xs md:text-sm text-luxury-grey font-light leading-relaxed tracking-wide">
+                  <p className="font-sans text-sm text-[#B4B4B4] font-normal leading-relaxed tracking-normal">
                     {pillar.desc}
                   </p>
                 </div>

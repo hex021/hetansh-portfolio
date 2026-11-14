@@ -444,7 +444,7 @@ export const ProfileManager: React.FC = () => {
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="ROBOTICS • EMBEDDED SYSTEMS • AI"
+                placeholder="ROBOTICS • EMBEDDED SYSTEMS • AI/ML"
                 className="w-full bg-[#151515] border border-[#A61E2D]/20 px-3.5 py-2.5 text-xs text-[#F5F5F5] focus:outline-none focus:border-[#A61E2D]"
               />
             </div>

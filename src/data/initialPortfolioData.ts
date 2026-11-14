@@ -3,7 +3,7 @@ import type { PortfolioData } from '../types/portfolio';
 export const initialPortfolioData: PortfolioData = {
   profile: {
     name: 'Hetansh Patel',
-    title: 'Robotics • Embedded Systems • AI',
+    title: 'Robotics • Embedded Systems • AI/ML',
     subtitle: 'Electronics & Communication Engineering Portfolio',
     email: 'hetansh75.hp@gmail.com',
     phone: '+91 87582 96710',
@@ -19,7 +19,7 @@ export const initialPortfolioData: PortfolioData = {
     resumeUrl: '/Hetansh_Patel_Resume.pdf',
     resumeFileName: 'Hetansh_Patel_Resume.pdf',
     statusBadge: 'Hardware Systems & AI Architect',
-    availability: 'Available for Robotics & Embedded Systems Roles',
+    availability: '',
     bioHeading: 'Architecting Systems Where Silicon Meets Code',
     bioSummary: 'Architecting advanced cyber-physical technology. Designing low-latency hardware, embedded firmware networks, and robotic vector controllers with micro-millimeter precision.'
   },
@@ -170,7 +170,7 @@ export const initialPortfolioData: PortfolioData = {
       id: 'geogrid-sand-monitoring',
       title: 'Low-Cost Smart Monitoring System for Geogrid-Reinforced Sand Layer Analysis',
       badge: 'Active Research Project',
-      department: 'Department of Civil & ECE',
+      department: 'Department of Civil',
       supervisor: 'Dr. Uma Chaduvula',
       period: 'January 2026 – Present',
       location: 'Geotech Laboratory, PDEU',
@@ -367,7 +367,7 @@ export const initialPortfolioData: PortfolioData = {
     directGithubClick: false,
     heroFirstName: 'Hetansh',
     heroLastName: 'Patel',
-    creedQuote: '"We do not just compile code; we instruct electrons to manifest physical action."',
+    creedQuote: '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."',
     visibleSections: {
       about: true,
       philosophy: true,

@@ -37,6 +37,8 @@ console.log('Test 1: Verifying Initial Portfolio Data Integrity...');
 assert.ok(initialPortfolioData, 'Initial data must exist');
 assert.strictEqual(typeof initialPortfolioData.profile, 'object', 'Profile must be an object');
 assert.strictEqual(initialPortfolioData.profile.name, 'Hetansh Patel', 'Name must be Hetansh Patel');
+assert.strictEqual(initialPortfolioData.profile.title, 'Robotics • Embedded Systems • AI/ML', 'Profile title must match AI/ML');
+assert.strictEqual(initialPortfolioData.profile.availability, '', 'Availability status must be empty');
 assert.strictEqual(initialPortfolioData.profile.gpa, '8.42 / 10 (till 4th Semester)', 'GPA must match 8.42');
 assert.strictEqual(initialPortfolioData.profile.phone, '+91 87582 96710', 'Phone number must match');
 assert.strictEqual(initialPortfolioData.profile.resumeUrl, '/Hetansh_Patel_Resume.pdf', 'Default resume URL must be /Hetansh_Patel_Resume.pdf');
@@ -73,6 +75,7 @@ assert.ok(Array.isArray(initialPortfolioData.research), 'Research must be an arr
 assert.ok(initialPortfolioData.research.length >= 1, 'Must have at least 1 research project');
 const res = initialPortfolioData.research[0];
 assert.strictEqual(res.supervisor, 'Dr. Uma Chaduvula', 'Supervisor must match Dr. Uma Chaduvula');
+assert.strictEqual(res.department, 'Department of Civil', 'Department must match Department of Civil');
 assert.ok(res.contributions.length >= 4, 'Must have key contributions listed');
 assert.ok(res.techStack.length >= 4, 'Must have tech stack listed');
 

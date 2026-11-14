@@ -30,9 +30,9 @@ export const BeyondEngineering: React.FC = () => {
     },
     {
       num: "04",
-      name: "Aviation Enthusiast",
-      tag: "AERODYNAMICS",
-      details: "Following aeronautical engineering design, propulsion system mechanics, and flight dynamics."
+      name: "Avgeek & Plane Spotting",
+      tag: "CIVIL AVIATION",
+      details: "Passionate avgeek tracking commercial aircraft specifications, fleet configurations, and airframes across Airbus, Boeing, Bombardier, and Cessna. Active civil aviation plane spotter."
     },
     {
       num: "05",
@@ -76,7 +76,7 @@ export const BeyondEngineering: React.FC = () => {
           
           {/* Left Column: Heading and intro (sticky) */}
           <div className="lg:col-span-4 lg:sticky lg:top-36 space-y-6">
-            <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
+            <span className="font-sans text-xs tracking-[0.3em] uppercase text-luxury-gold font-bold">
               10 / Perspective
             </span>
             <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wider text-luxury-text leading-tight">
@@ -84,9 +84,6 @@ export const BeyondEngineering: React.FC = () => {
               <span className="font-light italic text-transparent text-outline">Engineering</span>
             </h2>
             <div className="w-12 h-[1px] bg-luxury-gold/40 my-6" />
-            <p className="font-sans text-xs text-luxury-grey tracking-widest uppercase leading-loose max-w-xs font-light">
-              ENGINEERING IS A CORE DRIFT, BUT CURIOSITY EXTENDS BEYOND CIRCUIT RAILS AND FIRMWARE EMULATORS.
-            </p>
           </div>
 
           {/* Right Column: Premium Editorial List */}
@@ -102,20 +99,20 @@ export const BeyondEngineering: React.FC = () => {
               >
                 {/* Num + Tag (Updated to Inter) */}
                 <div className="md:col-span-3 flex md:flex-col justify-between md:justify-start items-center md:items-start gap-2.5">
-                  <span className="font-sans text-xs font-bold text-luxury-gold/50 group-hover:text-luxury-gold transition-colors duration-500 font-mono">
+                  <span className="font-sans text-xs font-bold text-luxury-gold/60 group-hover:text-luxury-gold transition-colors duration-500 font-mono">
                     {item.num}
                   </span>
-                  <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-luxury-grey font-semibold px-3.5 py-1.5 border border-luxury-gold/10 bg-luxury-gold/[0.01] block">
+                  <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#C0C0C0] font-semibold px-3 py-1.5 border border-luxury-gold/15 bg-luxury-gold/[0.02] block">
                     {item.tag}
                   </span>
                 </div>
                 
                 {/* Interest Title & Description (Updated to Inter) */}
-                <div className="md:col-span-9 space-y-3">
-                  <h3 className="font-sans text-xs uppercase tracking-widest font-bold text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
+                <div className="md:col-span-9 space-y-2.5">
+                  <h3 className="font-sans text-sm md:text-base uppercase tracking-wider font-bold text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
                     {item.name}
                   </h3>
-                  <p className="font-sans text-xs md:text-sm text-luxury-grey leading-relaxed tracking-wider font-light">
+                  <p className="font-sans text-sm md:text-base text-[#B0B0B0] leading-relaxed font-normal">
                     {item.details}
                   </p>
                 </div>

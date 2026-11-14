@@ -6,7 +6,7 @@ import { usePortfolio } from '../context/PortfolioContext';
 export const About: React.FC = () => {
   const { data } = usePortfolio();
   const profile = data.profile;
-  const creed = data.ui?.creedQuote || '"We do not just compile code; we instruct electrons to manifest physical action."';
+  const creed = data.ui?.creedQuote || '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
   const showTraces = data.ui?.showPCBTraces !== false;
 
   const containerVariants = {
@@ -83,27 +83,27 @@ export const About: React.FC = () => {
               </h2>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="space-y-8 font-sans text-xs md:text-sm font-light text-luxury-grey leading-relaxed max-w-md tracking-wider">
+            <motion.div variants={itemVariants} className="space-y-6 font-sans text-sm md:text-base font-normal text-[#C5C5C5] leading-relaxed max-w-lg">
               <p>
                 I am {profile.name}, specializing in {profile.title} through {profile.degree} at {profile.university}.
               </p>
               <p>
                 I approach hardware design as a medium for physical agency. I build physical structures that acquire real-time telemetry, routing data streams across organic and digital boundaries.
               </p>
-              <p className="border-l border-luxury-gold/30 pl-5 py-2 text-[10px] uppercase tracking-widest text-luxury-text italic">
+              <p className="border-l-2 border-luxury-gold/50 pl-5 py-2.5 text-xs md:text-sm uppercase tracking-wider text-luxury-gold font-medium leading-relaxed">
                 {creed}
               </p>
             </motion.div>
 
             {/* Quick Metrics */}
             <motion.div variants={itemVariants} className="grid grid-cols-2 gap-8 pt-4">
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <div className="font-sans text-3xl font-bold tracking-tight text-luxury-gold">{profile.gpa.split(' ')[0] || profile.gpa}</div>
-                <div className="font-sans text-[8px] uppercase tracking-[0.25em] text-luxury-grey font-bold">Cumulative GPA</div>
+                <div className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#9E9E9E] font-semibold">Cumulative GPA</div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <div className="font-sans text-3xl font-bold tracking-tight text-luxury-text">IEEE RAS</div>
-                <div className="font-sans text-[8px] uppercase tracking-[0.25em] text-luxury-grey font-bold">Robotics Member</div>
+                <div className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#9E9E9E] font-semibold">Robotics Member</div>
               </div>
             </motion.div>
           </div>
@@ -111,12 +111,12 @@ export const About: React.FC = () => {
           {/* Right Column: Re-architected domains (Completely font-sans/Inter) */}
           <div className="lg:col-span-7 space-y-12">
             <motion.div variants={itemVariants} className="border-b border-luxury-gold/10 pb-6">
-              <h3 className="font-sans text-[10px] uppercase tracking-[0.25em] text-luxury-text font-bold">
+              <h3 className="font-sans text-xs uppercase tracking-[0.25em] text-luxury-text font-bold">
                 Specialized Domains of Execution
               </h3>
             </motion.div>
 
-            <div className="space-y-12">
+            <div className="space-y-10">
               {focusAreas.map((area, index) => (
                 <motion.div
                   key={index}
@@ -130,10 +130,10 @@ export const About: React.FC = () => {
                   
                   {/* Content */}
                   <div className="md:col-span-10 space-y-2">
-                    <h4 className="font-sans text-xs uppercase font-bold tracking-widest text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
+                    <h4 className="font-sans text-sm uppercase font-bold tracking-wider text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
                       {area.title}
                     </h4>
-                    <p className="font-sans text-xs text-luxury-grey leading-relaxed tracking-wider font-light">
+                    <p className="font-sans text-xs md:text-sm text-[#A8A8A8] leading-relaxed font-normal">
                       {area.desc}
                     </p>
                   </div>

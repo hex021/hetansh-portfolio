@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, ArrowUpRight, Globe } from 'lucide-react';
+import { Mail, ArrowUpRight, Globe, MapPin } from 'lucide-react';
 import { OscilloscopeBackground } from './BackgroundSystem';
 import { usePortfolio } from '../context/PortfolioContext';
 
@@ -61,7 +61,7 @@ export const Contact: React.FC = () => {
           {/* Left Column: Get in touch copy */}
           <div className="lg:col-span-5 space-y-10">
             <div className="space-y-4">
-              <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
+              <span className="font-sans text-xs tracking-[0.3em] uppercase text-luxury-gold font-bold">
                 11 / Connection
               </span>
               <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wider text-luxury-text leading-tight animate-fade-in">
@@ -70,13 +70,13 @@ export const Contact: React.FC = () => {
               </h2>
             </div>
 
-            <p className="font-sans text-xs md:text-sm text-luxury-grey font-light leading-relaxed max-w-sm tracking-wider">
-              I am open to discussions on robotics control design, microcontroller integrations, research proposals, or collaborative software-hardware builds. Reach out via email, phone, or connect on professional nodes.
+            <p className="font-sans text-sm md:text-base text-[#B0B0B0] font-normal leading-relaxed max-w-sm tracking-normal">
+              I am open to discussions on robotics control design, microcontroller integrations, research proposals, or collaborative software-hardware builds. Reach out via email or connect on professional nodes.
             </p>
 
             {/* Social connection icons */}
             <div className="space-y-4">
-              <span className="font-sans text-[8px] uppercase tracking-[0.25em] text-luxury-text font-bold block">Digital Anchors</span>
+              <span className="font-sans text-xs uppercase tracking-[0.25em] text-luxury-text font-bold block">Digital Anchors</span>
               <div className="flex flex-wrap gap-4">
                 {socials.map((s, idx) => (
                   <a
@@ -86,12 +86,12 @@ export const Contact: React.FC = () => {
                     rel="noreferrer noopener"
                     aria-label={s.label}
                     title={s.label}
-                    className="w-12 h-12 border border-luxury-gold/10 flex items-center justify-center text-luxury-grey hover:text-luxury-gold hover:border-luxury-gold transition-all duration-500 bg-[#111111]/10 group relative"
+                    className="w-12 h-12 border border-luxury-gold/15 flex items-center justify-center text-luxury-grey hover:text-luxury-gold hover:border-luxury-gold transition-all duration-500 bg-[#111111]/20 group relative"
                   >
                     <span className="group-hover:scale-110 transition-transform duration-300">
                       {s.icon}
                     </span>
-                    <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#151515] border border-luxury-gold/20 text-[9px] text-luxury-gold font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                    <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-[#151515] border border-luxury-gold/25 text-[10px] text-luxury-gold font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 shadow-md">
                       {s.label}
                     </span>
                   </a>
@@ -100,97 +100,60 @@ export const Contact: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Interactive Details */}
-          <div className="lg:col-span-7 flex flex-col justify-center h-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              
-              {/* Direct Mail Card */}
-              <a 
-                href={`mailto:${profile.email}`}
-                className="luxury-card p-8 border border-luxury-gold/10 bg-[#111111]/10 hover:border-luxury-gold/30 hover:bg-[#111111]/30 transition-all duration-500 flex flex-col justify-between space-y-8 group block"
-              >
-                <div className="flex justify-between items-start">
-                  <div className="space-y-1.5">
-                    <span className="font-sans text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-luxury-gold font-bold block">
-                      Direct Email Line
-                    </span>
-                    <h3 className="font-sans text-lg md:text-xl font-light tracking-wide text-luxury-text group-hover:text-luxury-gold transition-colors duration-300 break-all">
-                      {profile.email}
-                    </h3>
-                  </div>
-                  <div className="w-8 h-8 rounded-full border border-luxury-gold/10 flex items-center justify-center text-luxury-grey group-hover:text-luxury-gold group-hover:border-luxury-gold transition-all duration-500">
-                    <ArrowUpRight size={15} />
-                  </div>
-                </div>
-                <div className="font-sans text-[9px] uppercase tracking-[0.15em] text-luxury-grey/75 font-light">
-                  Standard encryption / 24h operational response.
-                </div>
-              </a>
-
-              {/* Direct Phone Card */}
-              <a 
-                href={`tel:${profile.phone.replace(/[^0-9+]/g, '')}`}
-                className="luxury-card p-8 border border-luxury-gold/10 bg-[#111111]/10 hover:border-luxury-gold/30 hover:bg-[#111111]/30 transition-all duration-500 flex flex-col justify-between space-y-8 group block"
-              >
-                <div className="flex justify-between items-start">
-                  <div className="space-y-1.5">
-                    <span className="font-sans text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-luxury-gold font-bold block">
-                      Direct Wire / Voice
-                    </span>
-                    <h3 className="font-sans text-lg md:text-2xl font-light tracking-wide text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
-                      {profile.phone}
-                    </h3>
-                  </div>
-                  <div className="w-8 h-8 rounded-full border border-luxury-gold/10 flex items-center justify-center text-luxury-grey group-hover:text-luxury-gold group-hover:border-luxury-gold transition-all duration-500">
-                    <Phone size={15} />
-                  </div>
-                </div>
-                <div className="font-sans text-[9px] uppercase tracking-[0.15em] text-luxury-grey/75 font-light">
-                  Direct telephone &amp; WhatsApp communication line.
-                </div>
-              </a>
-
-              {/* Location Card */}
-              <div 
-                className="luxury-card p-8 border border-luxury-gold/10 bg-[#111111]/10 transition-all duration-500 flex flex-col justify-between space-y-8"
-              >
-                <div className="space-y-1.5">
-                  <span className="font-sans text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-luxury-gold font-bold block">
-                    Locator
+          {/* Right Column: Clean Interactive Cards */}
+          <div className="lg:col-span-7 flex flex-col justify-center gap-6 h-full">
+            
+            {/* Direct Mail Card */}
+            <a 
+              href={`mailto:${profile.email}`}
+              className="luxury-card p-8 md:p-10 border border-luxury-gold/15 bg-[#111111]/20 hover:border-luxury-gold/40 hover:bg-[#111111]/40 transition-all duration-500 flex flex-col justify-between space-y-6 group block"
+            >
+              <div className="flex justify-between items-start">
+                <div className="space-y-2">
+                  <span className="font-sans text-xs uppercase tracking-[0.25em] text-luxury-gold font-bold block">
+                    Direct Email Line
                   </span>
-                  <h3 className="font-sans text-lg md:text-2xl font-light tracking-wide text-luxury-text">
+                  <h3 className="font-sans text-xl md:text-2xl font-light tracking-wide text-luxury-text group-hover:text-luxury-gold transition-colors duration-300 break-all">
+                    {profile.email}
+                  </h3>
+                </div>
+                <div className="w-10 h-10 rounded-full border border-luxury-gold/20 flex items-center justify-center text-luxury-grey group-hover:text-luxury-gold group-hover:border-luxury-gold transition-all duration-500">
+                  <ArrowUpRight size={18} />
+                </div>
+              </div>
+              <div className="font-sans text-xs uppercase tracking-[0.15em] text-[#8E949D] font-normal">
+                Standard encryption // Primary channel for research &amp; engineering opportunities.
+              </div>
+            </a>
+
+            {/* Location Card */}
+            <div 
+              className="luxury-card p-8 md:p-10 border border-luxury-gold/15 bg-[#111111]/20 transition-all duration-500 flex flex-col justify-between space-y-6"
+            >
+              <div className="flex justify-between items-start">
+                <div className="space-y-2">
+                  <span className="font-sans text-xs uppercase tracking-[0.25em] text-luxury-gold font-bold block">
+                    Geographic Base
+                  </span>
+                  <h3 className="font-sans text-xl md:text-2xl font-light tracking-wide text-luxury-text">
                     {profile.location}
                   </h3>
                 </div>
-                <div className="font-sans text-[9px] uppercase tracking-[0.15em] text-luxury-grey/75 font-light">
-                  Active Timezone // {profile.timezone}
+                <div className="w-10 h-10 rounded-full border border-luxury-gold/20 flex items-center justify-center text-luxury-grey">
+                  <MapPin size={18} className="text-luxury-gold" />
                 </div>
               </div>
-
-              {/* Academic Credentials Card */}
-              <div 
-                className="luxury-card p-8 border border-luxury-gold/10 bg-[#111111]/10 transition-all duration-500 flex flex-col justify-between space-y-8"
-              >
-                <div className="space-y-1.5">
-                  <span className="font-sans text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-luxury-gold font-bold block">
-                    Academic Standard
-                  </span>
-                  <h3 className="font-sans text-base md:text-xl font-light tracking-wide text-luxury-text">
-                    GPA: <span className="font-bold text-luxury-gold font-mono">{profile.gpa}</span>
-                  </h3>
-                </div>
-                <div className="font-sans text-[9px] uppercase tracking-[0.15em] text-luxury-grey/75 font-light">
-                  {profile.university}
-                </div>
+              <div className="font-sans text-xs uppercase tracking-[0.15em] text-[#8E949D] font-normal">
+                Active Operational Timezone // {profile.timezone}
               </div>
-
             </div>
+
           </div>
 
         </div>
 
         {/* Footer info */}
-        <div className="mt-36 pt-8 border-t border-luxury-gold/10 flex flex-col md:flex-row justify-between items-center gap-4 font-sans text-[8px] uppercase tracking-[0.25em] text-luxury-grey/70">
+        <div className="mt-32 pt-8 border-t border-luxury-gold/10 flex flex-col md:flex-row justify-between items-center gap-4 font-sans text-[10px] uppercase tracking-[0.25em] text-luxury-grey/80">
           <div>© 2026 Hetansh Patel. All rights reserved.</div>
           
           <div className="flex gap-2">
