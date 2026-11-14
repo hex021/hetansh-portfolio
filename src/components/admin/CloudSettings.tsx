@@ -95,7 +95,7 @@ export const CloudSettings: React.FC = () => {
     setTimeout(() => setStatusMessage(null), 3000);
   };
 
-  const handleChangeCredentials = (e: React.FormEvent) => {
+  const handleChangeCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
     setPwdMessage(null);
 
@@ -110,7 +110,7 @@ export const CloudSettings: React.FC = () => {
       }
     }
 
-    const res = updateAdminCredentials(newUsername, newPassword || undefined);
+    const res = await updateAdminCredentials(newUsername, newPassword || undefined);
     if (res.success) {
       setCurrentUsername(newUsername.trim());
       setNewPassword('');

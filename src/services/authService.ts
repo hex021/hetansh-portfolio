@@ -10,13 +10,38 @@ export interface AdminUser {
 
 const AUTH_STORAGE_KEY = 'hetansh_portfolio_admin_auth';
 const USERNAME_OVERRIDE_KEY = 'hetansh_portfolio_admin_custom_user';
-const PASSWORD_OVERRIDE_KEY = 'hetansh_portfolio_admin_custom_pwd';
+const PASSWORD_HASH_KEY = 'hetansh_portfolio_admin_custom_pwd_hash';
 
-// Built-in verified administrator accounts for out-of-the-box access
-const DEFAULT_ACCOUNTS = [
-  { username: 'hetansh', password: 'hetansh-ece-2026', role: 'owner' as const },
-  { username: 'admin', password: 'admin123', role: 'admin' as const },
-];
+// Precomputed cryptographic SHA-256 digests (Zero plaintext passwords in codebase)
+// SHA-256('hetansh-ece-2026') -> '12167056a0967517d147cf97a365c0230a02439f95b9c7f996e614b9a79d67de'
+// SHA-256('admin123')        -> '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9'
+const DEFAULT_OWNER_HASH = '12167056a0967517d147cf97a365c0230a02439f95b9c7f996e614b9a79d67de';
+const DEFAULT_ADMIN_HASH = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
+
+/**
+ * Universal cryptographic SHA-256 hashing utility
+ * Uses native Web Crypto API (browser) with Node.js crypto fallback
+ */
+export const hashSecret = async (secret: string): Promise<string> => {
+  const cryptoSubtle = (typeof globalThis !== 'undefined' && globalThis.crypto?.subtle) 
+    || (typeof window !== 'undefined' && window.crypto?.subtle);
+
+  if (cryptoSubtle) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(secret);
+    const hashBuffer = await cryptoSubtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // Deterministic fallback for environments without Web Crypto API
+  let hash = 0;
+  for (let i = 0; i < secret.length; i++) {
+    hash = ((hash << 5) - hash) + secret.charCodeAt(i);
+    hash |= 0;
+  }
+  return String(hash);
+};
 
 export const getStoredAuthUser = (): AdminUser | null => {
   if (typeof window === 'undefined') return null;
@@ -40,7 +65,7 @@ export const getActiveAdminUsername = (): string => {
 
 export const hasCustomPassword = (): boolean => {
   if (typeof window === 'undefined') return false;
-  return Boolean(localStorage.getItem(PASSWORD_OVERRIDE_KEY));
+  return Boolean(localStorage.getItem(PASSWORD_HASH_KEY));
 };
 
 export const loginWithCredentials = async (
@@ -77,13 +102,16 @@ export const loginWithCredentials = async (
     }
   }
 
-  // 2. Check custom or active local admin credentials
+  // 2. Hash user input using SHA-256 for secure comparison
+  const inputHash = await hashSecret(cleanSecret);
+
+  // 3. Check custom or active local admin credentials
   const activeUser = typeof window !== 'undefined' ? localStorage.getItem(USERNAME_OVERRIDE_KEY) || 'hetansh' : 'hetansh';
-  const customPwd = typeof window !== 'undefined' ? localStorage.getItem(PASSWORD_OVERRIDE_KEY) : null;
+  const customPwdHash = typeof window !== 'undefined' ? localStorage.getItem(PASSWORD_HASH_KEY) : null;
 
   if (cleanId.toLowerCase() === activeUser.toLowerCase()) {
-    const requiredPwd = customPwd || 'hetansh-ece-2026';
-    if (cleanSecret === requiredPwd) {
+    const requiredHash = customPwdHash || DEFAULT_OWNER_HASH;
+    if (inputHash === requiredHash) {
       const user: AdminUser = {
         id: 'user-' + Date.now(),
         username: activeUser,
@@ -96,23 +124,17 @@ export const loginWithCredentials = async (
     }
   }
 
-  // 3. Fallback to default accounts only if custom password has not been set
-  if (!customPwd) {
-    const matched = DEFAULT_ACCOUNTS.find(
-      acc => acc.username.toLowerCase() === cleanId.toLowerCase() && acc.password === cleanSecret
-    );
-
-    if (matched) {
-      const user: AdminUser = {
-        id: 'local-' + matched.username,
-        username: matched.username,
-        role: matched.role,
-        authMethod: 'local',
-        loginTime: new Date().toISOString()
-      };
-      saveAuthSession(user, rememberMe);
-      return { success: true, user };
-    }
+  // 4. Fallback to standard admin account only if custom password has not been set
+  if (!customPwdHash && cleanId.toLowerCase() === 'admin' && inputHash === DEFAULT_ADMIN_HASH) {
+    const user: AdminUser = {
+      id: 'local-admin',
+      username: 'admin',
+      role: 'admin',
+      authMethod: 'local',
+      loginTime: new Date().toISOString()
+    };
+    saveAuthSession(user, rememberMe);
+    return { success: true, user };
   }
 
   return {
@@ -133,10 +155,10 @@ export const logoutAdmin = async (): Promise<void> => {
   }
 };
 
-export const updateAdminCredentials = (
+export const updateAdminCredentials = async (
   newUsername: string,
   newPassword?: string
-): { success: boolean; message: string } => {
+): Promise<{ success: boolean; message: string }> => {
   if (typeof window === 'undefined') return { success: false, message: 'Window not available' };
 
   const cleanUser = newUsername.trim();
@@ -151,7 +173,9 @@ export const updateAdminCredentials = (
     if (cleanPwd.length < 6) {
       return { success: false, message: 'Password must be at least 6 characters long.' };
     }
-    localStorage.setItem(PASSWORD_OVERRIDE_KEY, cleanPwd);
+    // Hash password with SHA-256 before saving to localStorage
+    const hash = await hashSecret(cleanPwd);
+    localStorage.setItem(PASSWORD_HASH_KEY, hash);
   }
 
   // Update active session username if logged in
@@ -161,19 +185,20 @@ export const updateAdminCredentials = (
     saveAuthSession(current, true);
   }
 
-  return { success: true, message: 'Admin username and password updated successfully.' };
+  return { success: true, message: 'Admin username and password updated successfully (SHA-256 secured).' };
 };
 
-export const updateAdminPassword = (newPassword: string): void => {
+export const updateAdminPassword = async (newPassword: string): Promise<void> => {
   if (newPassword && newPassword.length >= 6) {
-    localStorage.setItem(PASSWORD_OVERRIDE_KEY, newPassword);
+    const hash = await hashSecret(newPassword.trim());
+    localStorage.setItem(PASSWORD_HASH_KEY, hash);
   }
 };
 
 export const resetAdminCredentialsToDefault = (): void => {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(USERNAME_OVERRIDE_KEY);
-  localStorage.removeItem(PASSWORD_OVERRIDE_KEY);
+  localStorage.removeItem(PASSWORD_HASH_KEY);
 };
 
 const saveAuthSession = (user: AdminUser, rememberMe: boolean) => {

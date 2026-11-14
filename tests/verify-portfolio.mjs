@@ -204,7 +204,7 @@ assert.strictEqual(adminLogin.user.role, 'admin', 'Role must be admin');
 await logoutAdmin();
 
 // 4f. Custom password override
-updateAdminPassword('new-secure-key-999');
+await updateAdminPassword('new-secure-key-999');
 const customLogin = await loginWithCredentials('hetansh', 'new-secure-key-999');
 assert.strictEqual(customLogin.success, true, 'Custom password must be accepted');
 await logoutAdmin();
