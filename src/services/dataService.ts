@@ -7,8 +7,44 @@ import {
   getFirebaseStatus
 } from './firebase';
 
-const STORAGE_KEY = 'hetansh_portfolio_data_v2';
+const STORAGE_KEY = 'hetansh_portfolio_data_v3';
 const EVENT_NAME = 'hetansh-portfolio-data-updated';
+
+/**
+ * Ensures legacy strings in older localStorage versions are cleanly migrated.
+ */
+const sanitizeMigratedData = (data: PortfolioData): PortfolioData => {
+  const sanitized = { ...data };
+
+  // 1. Sanitize Profile
+  if (sanitized.profile) {
+    if (sanitized.profile.title === 'Robotics • Embedded Systems • AI') {
+      sanitized.profile.title = 'Robotics • Embedded Systems • AI/ML';
+    }
+    if (sanitized.profile.availability === 'Available for Robotics & Embedded Systems Roles') {
+      sanitized.profile.availability = '';
+    }
+  }
+
+  // 2. Sanitize UI Creed Quote
+  if (sanitized.ui) {
+    if (sanitized.ui.creedQuote?.includes('instruct electrons')) {
+      sanitized.ui.creedQuote = '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
+    }
+  }
+
+  // 3. Sanitize Research Department
+  if (Array.isArray(sanitized.research)) {
+    sanitized.research = sanitized.research.map(item => {
+      if (item.department === 'Department of Civil & ECE') {
+        return { ...item, department: 'Department of Civil' };
+      }
+      return item;
+    });
+  }
+
+  return sanitized;
+};
 
 /**
  * Retrieve data from localStorage synchronously.
@@ -19,14 +55,41 @@ export const getStoredPortfolioData = (): PortfolioData => {
 
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
+    
+    // Check if an older cached version exists in localStorage and migrate it
     if (!raw) {
+      const v2 = localStorage.getItem('hetansh_portfolio_data_v2');
+      if (v2) {
+        try {
+          const parsedV2 = JSON.parse(v2);
+          const migrated = sanitizeMigratedData({
+            ...initialPortfolioData,
+            ...parsedV2,
+            profile: {
+              ...initialPortfolioData.profile,
+              ...(parsedV2.profile || {})
+            },
+            ui: {
+              ...initialPortfolioData.ui,
+              ...(parsedV2.ui || {})
+            }
+          });
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+          localStorage.removeItem('hetansh_portfolio_data_v2');
+          return migrated;
+        } catch {
+          // ignore error
+        }
+      }
+
       // Seed initial data to local storage on first visit
       localStorage.setItem(STORAGE_KEY, JSON.stringify(initialPortfolioData));
       return initialPortfolioData;
     }
+
     const parsed = JSON.parse(raw);
     // Merge shallowly with initial data in case schema has new collections
-    return {
+    const merged: PortfolioData = {
       ...initialPortfolioData,
       ...parsed,
       profile: {
@@ -42,6 +105,8 @@ export const getStoredPortfolioData = (): PortfolioData => {
         }
       }
     };
+
+    return sanitizeMigratedData(merged);
   } catch (error) {
     console.error('[DataService] Failed to read from localStorage:', error);
     return initialPortfolioData;
