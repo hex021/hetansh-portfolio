@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Cpu } from 'lucide-react';
+import { Menu, X, Cpu, Lock } from 'lucide-react';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onNavigateToAdmin?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onNavigateToAdmin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -28,6 +32,17 @@ export const Navbar: React.FC = () => {
     { name: 'Milestones', href: '#achievements' },
     { name: 'Beyond', href: '#beyond' },
   ];
+
+  const handleAdminClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (onNavigateToAdmin) {
+      onNavigateToAdmin();
+    } else {
+      window.history.pushState(null, '', '/admin');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }
+  };
 
   return (
     <>
@@ -56,7 +71,7 @@ export const Navbar: React.FC = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-10">
+          <div className="hidden md:flex items-center space-x-8">
             <div className="flex items-center space-x-8">
               {navItems.map((item) => (
                 <a
@@ -70,17 +85,37 @@ export const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Premium CTA Button */}
-            <a
-              href="#contact"
-              className="px-6 py-2.5 border border-luxury-gold/30 hover:border-luxury-gold bg-transparent font-sans text-[10px] uppercase tracking-[0.2em] text-luxury-text hover:bg-luxury-gold hover:text-luxury-bg transition-all duration-500"
-            >
-              Let's Build
-            </a>
+            <div className="flex items-center space-x-3">
+              {/* Premium CTA Button */}
+              <a
+                href="#contact"
+                className="px-6 py-2.5 border border-luxury-gold/30 hover:border-luxury-gold bg-transparent font-sans text-[10px] uppercase tracking-[0.2em] text-luxury-text hover:bg-luxury-gold hover:text-luxury-bg transition-all duration-500"
+              >
+                Let's Build
+              </a>
+
+              {/* Discreet Admin Lock Button */}
+              <a
+                href="/admin"
+                onClick={handleAdminClick}
+                title="Management Suite"
+                className="p-2.5 border border-luxury-gold/15 hover:border-luxury-gold/50 text-luxury-grey hover:text-luxury-gold transition-all duration-300"
+              >
+                <Lock size={12} />
+              </a>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-3">
+            <a
+              href="/admin"
+              onClick={handleAdminClick}
+              title="Admin Suite"
+              className="p-2 border border-luxury-gold/20 text-luxury-grey hover:text-luxury-gold"
+            >
+              <Lock size={14} />
+            </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-luxury-text hover:text-luxury-gold transition-colors duration-300 focus:outline-none"
@@ -119,6 +154,14 @@ export const Navbar: React.FC = () => {
                 className="mt-6 mx-auto px-8 py-3 border border-luxury-gold text-luxury-text bg-transparent hover:bg-luxury-gold hover:text-luxury-bg font-sans text-xs uppercase tracking-[0.2em] transition-all"
               >
                 Let's Build
+              </a>
+              <a
+                href="/admin"
+                onClick={handleAdminClick}
+                className="mx-auto flex items-center gap-2 text-xs uppercase tracking-widest text-luxury-gold pt-4 border-t border-luxury-gold/15"
+              >
+                <Lock size={12} />
+                <span>Admin Console</span>
               </a>
             </div>
           </motion.div>

@@ -1,138 +1,77 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-interface TimelineItem {
-  date: string;
-  title: string;
-  institution: string;
-  highlights: string[];
-}
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const Timeline: React.FC = () => {
-  const timelineData: TimelineItem[] = [
-    {
-      date: '01/2025 - Present',
-      title: 'IEEE Robotics And Automation Society (RAS) - Member',
-      institution: 'PDEU Chapter',
-      highlights: [
-        'Contributed to robotics-focused technical activities, workshops, and collaborative projects, enhancing practical skills and teamwork.',
-        'Interacted with industry and academic experts to gain insights on emerging technologies in robotics and automation.'
-      ]
-    },
-    {
-      date: '05/2025 - 06/2025',
-      title: 'Civic & Social Service Internship',
-      institution: 'Sabar Seva Trust',
-      highlights: [
-        '80 hours of community field service and social outreach.',
-        'Contributed to field documentation, project reporting, and grassroots community engagement.'
-      ]
-    },
-    {
-      date: 'Expected 06/2028',
-      title: 'B.Tech: Electronics & Communication Engineering',
-      institution: 'Pandit Deendayal Energy University (PDEU)',
-      highlights: [
-        'Cumulative GPA: 8.42 / 10 (till 4th Semester)',
-        'Core Focus: Embedded Systems, Signal Processing, Robotics Control, and Circuit Simulations.'
-      ]
-    },
-    {
-      date: '05/2024',
-      title: 'Higher Secondary Education (12th Grade)',
-      institution: 'Shree Gayatri Vidhyalaya, Ahmedabad',
-      highlights: [
-        'GUJCET Percentile: 95.61%ile',
-        'JEE Main Percentile: 88.49%ile',
-        'State Board Percentage: 85.32%'
-      ]
-    },
-    {
-      date: '06/2022',
-      title: 'Secondary Education (10th Grade)',
-      institution: 'Shree Narayana Higher Secondary School, Ahmedabad',
-      highlights: [
-        'State Board Percentage: 97.03% (Outstanding academic distinction)'
-      ]
-    }
-  ];
+  const { data } = usePortfolio();
+  const timelineData = data.timeline;
 
   return (
     <section 
       id="timeline" 
       className="relative w-full min-h-screen bg-transparent py-36 px-8 md:px-16 flex flex-col justify-center overflow-hidden border-t border-luxury-gold/5"
     >
+      {/* Decorative vertical lines */}
+      <div className="absolute top-0 left-12 w-[1px] h-full bg-luxury-gold/[0.015]" />
+      <div className="absolute top-0 right-12 w-[1px] h-full bg-luxury-gold/[0.015]" />
+
       <div className="max-w-7xl mx-auto w-full relative z-10">
         
-        {/* Header */}
-        <div className="space-y-4 mb-24 text-center lg:text-left">
-          <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
-            08 / Journey
-          </span>
-          <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wider text-luxury-text">
-            Experience &amp; <span className="font-light italic text-transparent text-outline">Trajectory</span>
-          </h2>
+        {/* Title */}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 mb-24">
+          <div className="space-y-4">
+            <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-luxury-gold font-bold">
+              08 / Progression
+            </span>
+            <h2 className="text-4xl md:text-6xl font-serif font-light uppercase tracking-wide text-luxury-text">
+              Academic &amp; Professional <span className="font-light italic text-transparent text-outline">Trajectory</span>
+            </h2>
+          </div>
+          <p className="font-sans text-xs text-luxury-grey tracking-widest uppercase max-w-sm font-light">
+            CHRONOLOGICAL OVERVIEW OF FORMAL EDUCATION, SOCIETY RESPONSIBILITIES, AND ENGINEERING LEADERSHIP.
+          </p>
         </div>
 
-        {/* Timeline representation (Completely card-free, line-guided) */}
-        <div className="relative max-w-4xl mx-auto">
-          {/* Vertical central tracking line */}
-          <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-[1px] bg-luxury-gold/15" />
+        {/* Timeline Items Vertical Track */}
+        <div className="relative border-l border-luxury-gold/15 ml-4 md:ml-32 pl-8 md:pl-16 space-y-16">
+          {timelineData.map((item, index) => (
+            <motion.div
+              key={item.id || index}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+              className="relative group"
+            >
+              {/* Timeline Indicator Dot */}
+              <div className="absolute -left-[39px] md:-left-[71px] top-1.5 w-3.5 h-3.5 rounded-full border border-luxury-gold bg-luxury-bg group-hover:scale-125 group-hover:bg-luxury-gold transition-all duration-300 shadow-gold-glow" />
 
-          {/* Timeline Nodes */}
-          <div className="space-y-16">
-            {timelineData.map((item, index) => {
-              const isEven = index % 2 === 0;
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 25 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                  className={`flex flex-col md:flex-row items-stretch w-full ${
-                    isEven ? 'md:flex-row-reverse' : ''
-                  }`}
-                >
-                  {/* Outer column */}
-                  <div className="w-full md:w-1/2 pr-0 md:pr-12 md:pl-12 flex justify-start md:justify-end">
-                    <div className={`w-full max-w-md pb-6 border-b border-luxury-gold/5 hover:border-luxury-gold/30 transition-all duration-500 relative group ${
-                      isEven ? 'md:text-left' : 'md:text-right'
-                    }`}>
-                      
-                      <span className="font-sans text-xs md:text-sm font-bold tracking-wider text-luxury-gold uppercase block mb-3">
-                        {item.date}
-                      </span>
-                      <h3 className="font-sans text-xs uppercase font-bold tracking-widest text-luxury-text mb-1.5 group-hover:text-luxury-gold transition-colors duration-300">
-                        {item.title}
-                      </h3>
-                      <h4 className="font-sans text-[10px] uppercase tracking-wider text-luxury-grey/90 mb-4">
-                        {item.institution}
-                      </h4>
-                      <ul className={`space-y-2 font-sans text-xs text-luxury-grey font-light leading-relaxed flex flex-col ${
-                        isEven ? 'items-start text-left' : 'items-start md:items-end text-left md:text-right'
-                      }`}>
-                        {item.highlights.map((hl, i) => (
-                          <li key={i} className="flex gap-2">
-                            <span className="text-luxury-gold font-bold">•</span>
-                            <span className="tracking-wide">{hl}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+              {/* Trajectory content */}
+              <div className="space-y-3 max-w-3xl">
+                <div className="flex flex-wrap items-center gap-4">
+                  <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-luxury-gold font-mono">
+                    {item.date}
+                  </span>
+                  <span className="text-xs text-luxury-grey uppercase tracking-wider font-light">
+                    // {item.institution}
+                  </span>
+                </div>
 
-                  {/* Bullet center point */}
-                  <div className="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full border border-luxury-gold/20 bg-luxury-bg flex items-center justify-center z-10">
-                    <div className="w-2 h-2 rounded-full bg-luxury-gold" />
-                  </div>
+                <h3 className="font-sans text-lg md:text-xl font-bold uppercase tracking-wider text-luxury-text group-hover:text-luxury-gold transition-colors duration-300">
+                  {item.title}
+                </h3>
 
-                  {/* Empty side filler for desktop */}
-                  <div className="hidden md:block w-1/2" />
-                </motion.div>
-              );
-            })}
-          </div>
+                <ul className="space-y-2 pt-2 text-xs md:text-sm font-light text-[#B8BCC4] leading-relaxed tracking-wide">
+                  {item.highlights.map((highlight, hIndex) => (
+                    <li key={hIndex} className="flex items-start gap-3">
+                      <span className="text-luxury-gold/50 font-bold select-none mt-0.5">—</span>
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
       </div>

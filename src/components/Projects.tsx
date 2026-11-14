@@ -2,168 +2,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ExternalLink } from 'lucide-react';
 import { PCBTraceBackground } from './BackgroundSystem';
-
-interface CaseStudy {
-  id: string;
-  title: string;
-  category: string;
-  tagline: string;
-  problem: string;
-  approach: string;
-  outcome: string;
-  techSpecs: {
-    mcu: string;
-    sensors: string;
-    protocol: string;
-    languages: string;
-  };
-  metrics: { label: string; value: string }[];
-  githubUrl?: string;
-}
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const Projects: React.FC = () => {
-  const [activeProject, setActiveProject] = useState<string>('crop-advisor');
+  const { data } = usePortfolio();
+  const projectsData = data.projects;
 
-  const projectsData: CaseStudy[] = [
-    {
-      id: 'crop-advisor',
-      title: 'Smart Crop & Scheme Advisor',
-      category: 'CASE STUDY // AGRICULTURAL AI',
-      tagline: 'Translating environmental telemetry logs into intelligent agricultural recommendations.',
-      problem: 'Farmers navigate highly volatile soil and weather patterns without telemetry data, relying on historical assumptions that lead to crop failure, under-utilized land, and lost eligibility for government subsidies.',
-      approach: 'Constructed an ESP32 sensor node to capture real-time soil NPK, moisture, and temperature. Configured a Python Flask server to parse coordinates, call live weather forecasts, evaluate a predictive ML model, and call Gemini AI to produce tailored multilingual advisors.',
-      outcome: 'Achieved 94.2% crop recommendation accuracy and reduced subsidy profile evaluations to sub-2.1 seconds.',
-      techSpecs: {
-        mcu: 'ESP32 (NodeMCU) Board',
-        sensors: 'Optical NPK, DHT22 Temp-Humidity, Soil Probe',
-        protocol: 'RESTful API / JSON Payload',
-        languages: 'C++, Python (Flask), Gemini AI SDK'
-      },
-      metrics: [
-        { label: 'ML Recommendation Accuracy', value: '94.2%' },
-        { label: 'Subsidy Matching Time', value: '< 2.1s' }
-      ]
-    },
-    {
-      id: 'gesture-car',
-      title: 'Gesture Controlled Smart Car',
-      category: 'CASE STUDY // WIRELESS ROBOTICS',
-      tagline: 'High-speed gesture vector translation over peer-to-peer radio connections.',
-      problem: 'Mechanical joystick controllers suffer from mechanical wear and lack natural physical feedback, adding mental delay during critical, high-speed robotics maneuvering.',
-      approach: 'Integrated an MPU6050 accelerometer to map pitch and roll vectors. Configured a dual-core ESP32 transmitter to read data at 120Hz and pipe control frames via peer-to-peer ESP-NOW radio protocols directly to a motor driver receiver.',
-      outcome: 'Secured a lag-free 8ms wireless communication cycle, achieving highly responsive gesture-based navigation.',
-      techSpecs: {
-        mcu: 'Dual ESP32 NodeMCU units',
-        sensors: 'MPU6050 Six-Axis Accelerometer/Gyro',
-        protocol: 'ESP-NOW (Direct 2.4GHz Link)',
-        languages: 'Embedded C / C++ (PlatformIO)'
-      },
-      metrics: [
-        { label: 'Wireless Processing Latency', value: '8ms' },
-        { label: 'Transmission Frame Rate', value: '120 FPS' }
-      ]
-    },
-    {
-      id: 'targeting-system',
-      title: 'Fire Detection & Targeting System',
-      category: 'CASE STUDY // AUTOMATED CONTROL',
-      tagline: 'Closed-loop spatial thermal hunting using pan-tilt gimbals.',
-      problem: 'Static fire suppression fails to trace and lock onto dynamic heat sources, leading to delayed containment and unnecessary damage.',
-      approach: 'Constructed a dual-axis pan-tilt gimbal powered by servo motors. Programmed a spatial tracking algorithm in C++ to read raw voltages from a 5-channel flame phototransistor array, adjust angular gimbals, and lock onto combustion sources.',
-      outcome: 'Targeted and locked onto dynamic heat vectors within 45 milliseconds of sensor signal registration.',
-      techSpecs: {
-        mcu: 'ESP32 / Arduino Core',
-        sensors: '5-Channel IR Flame Sensor Array',
-        protocol: 'ADC Multiplexing / PWM Servo Loops',
-        languages: 'C / C++ (PlatformIO)'
-      },
-      metrics: [
-        { label: 'Correction Hunt Time', value: '45ms' },
-        { label: 'Sensor Detection Arc', value: '120 deg' }
-      ]
-    },
-    {
-      id: 'autonomous-follower',
-      title: 'Autonomous Line Following Robot',
-      category: 'CASE STUDY // PID ROBOTICS',
-      tagline: 'High-speed ground vehicle alignment using infrared reflectance arrays.',
-      problem: 'Ground robots wobble and deviate along sharp curves, failing to maintain high path velocities due to slow steering feedback loops.',
-      approach: 'Configured a ground vehicle with a 5-sensor IR array. Configured direct register polling for high-frequency ADC tracking, and programmed closed-loop path corrections to smoothly scale motor outputs.',
-      outcome: 'Maintained path tracking alignment at velocities up to 1.2 m/s over dynamic path layouts.',
-      techSpecs: {
-        mcu: 'ATmega328P Microcontroller',
-        sensors: '5-Channel IR Reflectance Array',
-        protocol: 'ADC Polling / PWM Motor Outputs',
-        languages: 'Embedded C'
-      },
-      metrics: [
-        { label: 'IR Array Polling Freq', value: '400 Hz' },
-        { label: 'Track Tracking Duty', value: '99.1%' }
-      ]
-    },
-    {
-      id: 'nagarnetra',
-      title: 'NagarNetra — Urban Intelligence Platform',
-      category: 'CASE STUDY // COMPUTER VISION AI',
-      tagline: 'AI-powered urban surveillance and analytics for Smart India Hackathon 2026.',
-      problem: 'Urban traffic management and law enforcement lack real-time, automated intelligence for vehicle identification, crowd density estimation, and incident detection across distributed CCTV networks.',
-      approach: 'Led the computer vision pipeline as Technology & CV Lead. Deployed YOLOv8 object detection, ByteTrack multi-object tracking, Lucas-Kanade optical flow for motion estimation, and EasyOCR-based Automatic Number Plate Recognition (ANPR). Built on PyTorch with OpenCV preprocessing.',
-      outcome: 'Delivered a unified real-time urban intelligence dashboard capable of simultaneous vehicle tracking, crowd analytics, and automated plate recognition across multiple camera feeds.',
-      techSpecs: {
-        mcu: 'GPU-Accelerated Server',
-        sensors: 'CCTV Camera Feeds',
-        protocol: 'REST API / WebSocket Streams',
-        languages: 'Python, PyTorch, OpenCV, YOLO'
-      },
-      metrics: [
-        { label: 'Detection Model', value: 'YOLOv8' },
-        { label: 'Tracking Pipeline', value: 'ByteTrack' }
-      ],
-      githubUrl: 'https://github.com/hex021'
-    },
-    {
-      id: 'monte-carlo',
-      title: 'Project Monte Carlo — Financial Risk Analytics',
-      category: 'CASE STUDY // QUANTITATIVE FINANCE',
-      tagline: 'Stochastic simulation engine for multi-asset portfolio risk assessment and optimization.',
-      problem: 'Traditional portfolio risk assessment relies on static historical analysis, failing to capture tail risks, correlated market shocks, and dynamic volatility regimes that drive real-world financial losses.',
-      approach: 'Built a full-stack analytics platform using Monte Carlo simulation with Cholesky-decomposed correlated asset paths. Integrated Ridge regression forecasting, NLP sentiment scoring from financial news, and Markowitz mean-variance optimization. Backend on FastAPI, frontend in React/TypeScript.',
-      outcome: 'Achieved 38ms latency for 5,000 simulation paths over 30 days and 412ms for 50,000 paths over 365 days, with real-time Value-at-Risk (VaR) and Conditional VaR calculations.',
-      techSpecs: {
-        mcu: 'FastAPI Backend Server',
-        sensors: 'Market Data Feeds / NLP Sources',
-        protocol: 'REST API / JSON',
-        languages: 'Python, NumPy, React, TypeScript'
-      },
-      metrics: [
-        { label: '5K Paths / 30 Days', value: '38ms' },
-        { label: '50K Paths / 365 Days', value: '412ms' }
-      ],
-      githubUrl: 'https://github.com/hex021'
-    },
-    {
-      id: 'wifi-car',
-      title: 'Wi-Fi Controlled Smart Car',
-      category: 'CASE STUDY // WIRELESS IoT',
-      tagline: 'Smartphone-operated robotic vehicle via real-time Wi-Fi command streaming.',
-      problem: 'Bluetooth-based remote control solutions suffer from limited range and pairing complexity, restricting operational flexibility for remotely operated ground vehicles.',
-      approach: 'Configured an ESP32 as a Wi-Fi access point hosting a lightweight HTTP command server. Developed a smartphone web interface for directional control, with real-time motor driver commands streamed over the local wireless network.',
-      outcome: 'Achieved responsive wireless control with seamless smartphone connectivity and no external infrastructure dependency.',
-      techSpecs: {
-        mcu: 'ESP32 (Wi-Fi AP Mode)',
-        sensors: 'Web-Based Touch Interface',
-        protocol: 'HTTP / Wi-Fi Direct',
-        languages: 'Embedded C++ / HTML/JS'
-      },
-      metrics: [
-        { label: 'Control Interface', value: 'Web UI' },
-        { label: 'Wireless Range', value: '30m+' }
-      ],
-      githubUrl: 'https://github.com/hex021'
-    }
-  ];
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
-  const currentProject = projectsData.find(p => p.id === activeProject) || projectsData[0];
+  const currentProject = projectsData.find((p) => p.id === selectedProjectId) || projectsData[0];
+  const activeProject = currentProject?.id || '';
 
   return (
     <section 
@@ -190,146 +38,174 @@ export const Projects: React.FC = () => {
           </p>
         </div>
 
-        {/* Dynamic Project Tabs Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          
-          {/* Left Tabs Column (Updated to font-sans / Inter) */}
-          <div className="lg:col-span-4 space-y-5">
-            {projectsData.map((project) => (
-              <button
-                key={project.id}
-                onClick={() => setActiveProject(project.id)}
-                className={`w-full text-left p-7 md:p-8 border transition-all duration-500 relative flex justify-between items-center group ${
-                  activeProject === project.id
-                    ? 'border-luxury-gold bg-luxury-gold/5 text-luxury-text shadow-gold-glow'
-                    : 'border-luxury-gold/5 text-luxury-grey hover:text-luxury-text hover:border-luxury-gold/20'
-                }`}
-              >
-                <div className="space-y-2 font-sans">
-                  <span className="text-[10px] tracking-widest text-luxury-gold font-bold uppercase">
-                    {project.category}
-                  </span>
-                  <h3 className="text-sm uppercase tracking-wider font-bold">
-                    {project.title}
-                  </h3>
-                </div>
-                <ChevronRight 
-                  size={16} 
-                  className={`transition-transform duration-350 ${
-                    activeProject === project.id ? 'translate-x-1 text-luxury-gold' : 'text-luxury-grey group-hover:text-luxury-text'
-                  }`} 
-                />
-              </button>
-            ))}
+        {projectsData.length === 0 ? (
+          <div className="text-center py-20 border border-luxury-gold/10 bg-[#111111]/20">
+            <p className="text-sm uppercase tracking-widest text-luxury-grey">No projects currently logged.</p>
           </div>
-
-          {/* Right Content Column */}
-          <div className="lg:col-span-8">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeProject}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 lg:gap-16 items-stretch"
-              >
-                {/* Details Column */}
-                <div className="md:col-span-7 space-y-10 flex flex-col justify-between">
-                  <div className="space-y-6">
-                    <span className="font-sans text-[10px] tracking-[0.25em] text-luxury-gold font-bold uppercase block">
-                      SPECIFICATIONS
+        ) : (
+          /* Dynamic Project Tabs Grid */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            
+            {/* Left Tabs Column */}
+            <div className="lg:col-span-4 space-y-5">
+              {projectsData.map((project) => (
+                <button
+                  key={project.id}
+                  onClick={() => setSelectedProjectId(project.id)}
+                  className={`w-full text-left p-7 md:p-8 border transition-all duration-500 relative flex justify-between items-center group cursor-pointer ${
+                    activeProject === project.id
+                      ? 'border-luxury-gold bg-luxury-gold/5 text-luxury-text shadow-gold-glow'
+                      : 'border-luxury-gold/5 text-luxury-grey hover:text-luxury-text hover:border-luxury-gold/20'
+                  }`}
+                >
+                  <div className="space-y-2 font-sans">
+                    <span className="text-[10px] tracking-widest text-luxury-gold font-bold uppercase">
+                      {project.category}
                     </span>
-                    <h3 className="font-sans text-lg md:text-xl uppercase tracking-widest font-bold text-luxury-text leading-tight">
-                      {currentProject.title}
+                    <h3 className="text-sm uppercase tracking-wider font-bold">
+                      {project.title}
                     </h3>
-                    <p className="font-sans text-sm font-semibold uppercase tracking-wider text-luxury-gold leading-relaxed">
-                      {currentProject.tagline}
-                    </p>
+                  </div>
+                  <ChevronRight 
+                    size={16} 
+                    className={`transition-transform duration-350 ${
+                      activeProject === project.id ? 'translate-x-1 text-luxury-gold' : 'text-luxury-grey group-hover:text-luxury-text'
+                    }`} 
+                  />
+                </button>
+              ))}
+            </div>
 
-                    {/* Problem, Approach, Outcome */}
-                    <div className="space-y-8 pt-8 border-t border-luxury-gold/10 text-sm">
-                      <div>
-                        <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-text font-bold mb-2">
-                          The Problem
-                        </h4>
-                        <p className="font-sans text-[#B8BCC4] font-normal leading-relaxed tracking-wide">
-                          {currentProject.problem}
+            {/* Right Content Column */}
+            {currentProject && (
+              <div className="lg:col-span-8">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeProject}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 lg:gap-16 items-stretch"
+                  >
+                    {/* Details Column */}
+                    <div className="md:col-span-7 space-y-10 flex flex-col justify-between">
+                      <div className="space-y-6">
+                        <span className="font-sans text-[10px] tracking-[0.25em] text-luxury-gold font-bold uppercase block">
+                          SPECIFICATIONS
+                        </span>
+                        
+                        {/* Clickable project title linking to GitHub repository */}
+                        {currentProject.githubUrl ? (
+                          <a
+                            href={currentProject.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group/title inline-flex items-center gap-2"
+                            title="Click to visit GitHub repository"
+                          >
+                            <h3 className="font-sans text-lg md:text-xl uppercase tracking-widest font-bold text-luxury-text group-hover/title:text-luxury-gold transition-colors leading-tight">
+                              {currentProject.title}
+                            </h3>
+                            <ExternalLink size={14} className="text-luxury-gold opacity-0 group-hover/title:opacity-100 transition-opacity" />
+                          </a>
+                        ) : (
+                          <h3 className="font-sans text-lg md:text-xl uppercase tracking-widest font-bold text-luxury-text leading-tight">
+                            {currentProject.title}
+                          </h3>
+                        )}
+
+                        <p className="font-sans text-sm font-semibold uppercase tracking-wider text-luxury-gold leading-relaxed">
+                          {currentProject.tagline}
                         </p>
-                      </div>
-                      <div>
-                        <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-text font-bold mb-2">
-                          Engineering Approach
-                        </h4>
-                        <p className="font-sans text-[#B8BCC4] font-normal leading-relaxed tracking-wide">
-                          {currentProject.approach}
-                        </p>
-                      </div>
-                      <div>
-                        <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-gold font-bold mb-2">
-                          Outcome
-                        </h4>
-                        <p className="font-sans text-[#B8BCC4] font-normal leading-relaxed tracking-wide">
-                          {currentProject.outcome}
-                        </p>
+
+                        {/* Problem, Approach, Outcome */}
+                        <div className="space-y-8 pt-8 border-t border-luxury-gold/10 text-sm">
+                          <div>
+                            <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-text font-bold mb-2">
+                              The Problem
+                            </h4>
+                            <p className="font-sans text-[#B8BCC4] font-normal leading-relaxed tracking-wide">
+                              {currentProject.problem}
+                            </p>
+                          </div>
+                          <div>
+                            <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-text font-bold mb-2">
+                              Engineering Approach
+                            </h4>
+                            <p className="font-sans text-[#B8BCC4] font-normal leading-relaxed tracking-wide">
+                              {currentProject.approach}
+                            </p>
+                          </div>
+                          <div>
+                            <h4 className="font-sans text-[11px] uppercase tracking-[0.2em] text-luxury-gold font-bold mb-2">
+                              Outcome
+                            </h4>
+                            <p className="font-sans text-[#B8BCC4] font-normal leading-relaxed tracking-wide">
+                              {currentProject.outcome}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                {/* Specs Column */}
-                <div className="md:col-span-5 flex flex-col justify-between space-y-8">
-                  {/* Technical Specifications */}
-                  <div className="p-8 border border-luxury-gold/10 bg-[#111111]/20 space-y-6">
-                    <span className="font-sans text-sm uppercase tracking-[0.15em] text-luxury-text font-bold block">Specs Blueprint</span>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-6 text-[11px] font-mono text-luxury-grey">
-                      <div>
-                        <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Processor</div>
-                        <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.mcu}</div>
+                    {/* Specs Column */}
+                    <div className="md:col-span-5 flex flex-col justify-between space-y-8">
+                      {/* Technical Specifications */}
+                      <div className="p-8 border border-luxury-gold/10 bg-[#111111]/20 space-y-6">
+                        <span className="font-sans text-sm uppercase tracking-[0.15em] text-luxury-text font-bold block">Specs Blueprint</span>
+                        <div className="grid grid-cols-2 gap-x-6 gap-y-6 text-[11px] font-mono text-luxury-grey">
+                          <div>
+                            <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Processor</div>
+                            <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.mcu}</div>
+                          </div>
+                          <div>
+                            <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Sensors</div>
+                            <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.sensors}</div>
+                          </div>
+                          <div>
+                            <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Link Bus</div>
+                            <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.protocol}</div>
+                          </div>
+                          <div>
+                            <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Compilers</div>
+                            <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.languages}</div>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Sensors</div>
-                        <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.sensors}</div>
-                      </div>
-                      <div>
-                        <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Link Bus</div>
-                        <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.protocol}</div>
-                      </div>
-                      <div>
-                        <div className="font-sans text-xs text-luxury-gold uppercase font-bold tracking-wider">Compilers</div>
-                        <div className="text-[#B8BCC4] font-semibold uppercase mt-1 text-[11px] leading-relaxed tracking-wide block">{currentProject.techSpecs.languages}</div>
-                      </div>
+
+                      {/* Operational Telemetry Metrics */}
+                      {currentProject.metrics && currentProject.metrics.length > 0 && (
+                        <div className="grid grid-cols-2 gap-6">
+                          {currentProject.metrics.map((metric, i) => (
+                            <div key={i} className="p-6 border border-luxury-gold/10 bg-[#111111]/20 text-center flex flex-col justify-center">
+                              <div className="font-sans text-2xl font-bold text-luxury-gold tracking-wide">{metric.value}</div>
+                              <div className="font-sans text-[10px] uppercase tracking-[0.25em] text-[#B8BCC4] mt-2 block">{metric.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* GitHub Link */}
+                      {currentProject.githubUrl && (
+                        <a
+                          href={currentProject.githubUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-full flex items-center justify-center gap-3 py-4 border border-luxury-gold/20 bg-transparent text-luxury-text font-sans text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-luxury-gold hover:text-luxury-bg transition-all duration-500 shadow-gold-glow"
+                        >
+                          View on GitHub <ExternalLink size={12} />
+                        </a>
+                      )}
                     </div>
-                  </div>
 
-                  {/* Operational Telemetry Metrics */}
-                  <div className="grid grid-cols-2 gap-6">
-                    {currentProject.metrics.map((metric, i) => (
-                      <div key={i} className="p-6 border border-luxury-gold/10 bg-[#111111]/20 text-center flex flex-col justify-center">
-                        <div className="font-sans text-2xl font-bold text-luxury-gold tracking-wide">{metric.value}</div>
-                        <div className="font-sans text-[10px] uppercase tracking-[0.25em] text-[#B8BCC4] mt-2 block">{metric.label}</div>
-                      </div>
-                    ))}
-                  </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            )}
 
-                  {/* GitHub Link */}
-                  {currentProject.githubUrl && (
-                    <a
-                      href={currentProject.githubUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="w-full flex items-center justify-center gap-3 py-4 border border-luxury-gold/20 bg-transparent text-luxury-text font-sans text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-luxury-gold hover:text-luxury-bg transition-all duration-500"
-                    >
-                      View on GitHub <ExternalLink size={12} />
-                    </a>
-                  )}
-                </div>
-
-              </motion.div>
-            </AnimatePresence>
           </div>
-
-        </div>
+        )}
 
       </div>
     </section>

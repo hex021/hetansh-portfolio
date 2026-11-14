@@ -212,8 +212,8 @@ export const ECEGlobalBackground: React.FC = () => {
         const absDx = Math.abs(dx);
         const absDy = Math.abs(dy);
 
-        let mx = x2;
-        let my = y1;
+        let mx: number;
+        let my: number;
 
         if (absDx > absDy) {
           mx = x1 + Math.sign(dx) * (absDx - absDy);
@@ -253,8 +253,8 @@ export const ECEGlobalBackground: React.FC = () => {
         const absDx = Math.abs(dx);
         const absDy = Math.abs(dy);
 
-        let mx = x2;
-        let my = y1;
+        let mx: number;
+        let my: number;
 
         if (absDx > absDy) {
           mx = x1 + Math.sign(dx) * (absDx - absDy);
@@ -275,8 +275,8 @@ export const ECEGlobalBackground: React.FC = () => {
         const straightX = x1 + (x2 - x1) * progress;
         const straightY = y1 + (y2 - y1) * progress;
 
-        let pcbX = x1;
-        let pcbY = y1;
+        let pcbX: number;
+        let pcbY: number;
 
         if (progress < ratio1) {
           const segProgress = progress / ratio1;
