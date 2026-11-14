@@ -6,8 +6,18 @@ import { usePortfolio } from '../context/PortfolioContext';
 export const About: React.FC = () => {
   const { data } = usePortfolio();
   const profile = data.profile;
-  const creed = data.ui?.creedQuote || '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
   const showTraces = data.ui?.showPCBTraces !== false;
+
+  const rawTitle = profile.title || '';
+  const displayTitle = (rawTitle.includes('Robotics') && !rawTitle.includes('AI/ML'))
+    ? rawTitle.replace(/\bAI\b/, 'AI/ML')
+    : (rawTitle || 'Robotics • Embedded Systems • AI/ML');
+
+  const rawCreed = data.ui?.creedQuote || '';
+  const isOldCreed = rawCreed.toLowerCase().includes('compile code') || rawCreed.toLowerCase().includes('electrons') || rawCreed.toLowerCase().includes('manifest');
+  const creed = (!isOldCreed && rawCreed)
+    ? rawCreed
+    : '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -85,7 +95,7 @@ export const About: React.FC = () => {
 
             <motion.div variants={itemVariants} className="space-y-6 font-sans text-sm md:text-base font-normal text-[#C5C5C5] leading-relaxed max-w-lg">
               <p>
-                I am {profile.name}, specializing in {profile.title} through {profile.degree} at {profile.university}.
+                I am {profile.name}, specializing in {displayTitle} through {profile.degree} at {profile.university}.
               </p>
               <p>
                 I approach hardware design as a medium for physical agency. I build physical structures that acquire real-time telemetry, routing data streams across organic and digital boundaries.

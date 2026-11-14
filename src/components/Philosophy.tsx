@@ -4,7 +4,11 @@ import { usePortfolio } from '../context/PortfolioContext';
 
 export const Philosophy: React.FC = () => {
   const { data } = usePortfolio();
-  const creedQuote = data.ui?.creedQuote || '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
+  const rawCreed = data.ui?.creedQuote || '';
+  const isOldCreed = rawCreed.toLowerCase().includes('compile code') || rawCreed.toLowerCase().includes('electrons') || rawCreed.toLowerCase().includes('manifest');
+  const creedQuote = (!isOldCreed && rawCreed)
+    ? rawCreed
+    : '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
 
   const pillars = [
     {

@@ -104,7 +104,7 @@ export const Research: React.FC = () => {
 
                 <div className="font-sans text-xs md:text-sm text-[#CCCCCC] tracking-wider uppercase">
                   <span className="text-luxury-gold font-bold">Supervisor:</span>{' '}
-                  {item.supervisor} ({item.department})
+                  {item.supervisor} ({item.department?.replace(/& ?ECE/gi, '').trim() || 'Department of Civil'})
                 </div>
               </div>
 

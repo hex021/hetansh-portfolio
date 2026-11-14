@@ -10,6 +10,11 @@ export const Hero: React.FC = () => {
   const firstName = data.ui?.heroFirstName || profile.name.split(' ')[0] || 'Hetansh';
   const lastName = data.ui?.heroLastName || profile.name.split(' ').slice(1).join(' ') || 'Patel';
 
+  const rawTitle = profile.title || '';
+  const displayTitle = (rawTitle.includes('Robotics') && !rawTitle.includes('AI/ML'))
+    ? rawTitle.replace(/\bAI\b/, 'AI/ML')
+    : (rawTitle || 'Robotics • Embedded Systems • AI/ML');
+
   return (
     <section 
       id="vision" 
@@ -39,7 +44,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="font-sans text-sm md:text-base font-bold uppercase tracking-[0.35em] text-luxury-gold"
           >
-            {profile.title}
+            {displayTitle}
           </motion.p>
         </div>
 

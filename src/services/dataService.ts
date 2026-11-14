@@ -18,17 +18,18 @@ const sanitizeMigratedData = (data: PortfolioData): PortfolioData => {
 
   // 1. Sanitize Profile
   if (sanitized.profile) {
-    if (sanitized.profile.title === 'Robotics • Embedded Systems • AI') {
-      sanitized.profile.title = 'Robotics • Embedded Systems • AI/ML';
+    if (sanitized.profile.title && sanitized.profile.title.includes('Robotics') && !sanitized.profile.title.includes('AI/ML')) {
+      sanitized.profile.title = sanitized.profile.title.replace(/\bAI\b/i, 'AI/ML');
     }
-    if (sanitized.profile.availability === 'Available for Robotics & Embedded Systems Roles') {
+    if (sanitized.profile.availability?.toLowerCase().includes('available for robotics')) {
       sanitized.profile.availability = '';
     }
   }
 
   // 2. Sanitize UI Creed Quote
   if (sanitized.ui) {
-    if (sanitized.ui.creedQuote?.includes('instruct electrons')) {
+    const quote = sanitized.ui.creedQuote?.toLowerCase() || '';
+    if (quote.includes('instruct electrons') || quote.includes('compile code') || quote.includes('physical action')) {
       sanitized.ui.creedQuote = '"Translating high-frequency sensor telemetry into deterministic, closed-loop execution pipelines."';
     }
   }
@@ -36,8 +37,8 @@ const sanitizeMigratedData = (data: PortfolioData): PortfolioData => {
   // 3. Sanitize Research Department
   if (Array.isArray(sanitized.research)) {
     sanitized.research = sanitized.research.map(item => {
-      if (item.department === 'Department of Civil & ECE') {
-        return { ...item, department: 'Department of Civil' };
+      if (item.department?.includes('& ECE') || item.department?.includes('&ECE')) {
+        return { ...item, department: item.department.replace(/& ?ECE/gi, '').trim() };
       }
       return item;
     });
